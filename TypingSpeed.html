@@ -1,0 +1,997 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <meta name="Author" content="Dzarel Developer" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Neuton:wght@700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Amaranth&display=swap");
+
+
+
+ {
+
+  box-sizing: border-box;
+
+}
+
+body {
+
+  margin: auto;
+
+  max-width: 1000px;
+
+}
+
+.main {
+
+  max-width: 800px;
+
+  padding: 30px;
+
+  display: flex;
+
+  justify-content: center;
+
+  background-color: #87CEEB;
+
+  padding: 20px;
+
+  color: #fff;
+
+  text-align: center;
+
+  height: 100vh;
+
+}
+
+.game-area {
+
+  display: none;
+
+}
+
+.menu-area {
+
+  display: block;
+
+}
+
+/* .level-area {
+
+  display: none;
+
+} */
+
+.about-area {
+
+  display: none;
+
+}
+
+.game-over {
+
+  display: none;
+
+}
+
+.container {
+
+  background-color: rgba(52, 73, 94, 0.6);
+
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+
+  padding: 50px;
+
+  padding-top: 0px;
+
+  display: table;
+
+  justify-content: center;
+
+  border-radius: 10px;
+
+}
+
+.col {
+
+  float: left;
+
+  width: 50%;
+
+  font-family: "Amaranth", sans-serif;
+
+}
+
+.col2 {
+
+  float: right;
+
+  width: 50%;
+
+}
+
+h1 {
+
+  margin: auto;
+
+  font-family: "Neuton", serif;
+
+}
+
+h2 {
+
+  margin-bottom: 20px;
+
+  background-color: rgba(0, 0, 0, 0.3);
+
+  border-radius: 10px;
+
+  padding: 10px 50px 10px 50px;
+
+  font-size: 23px;
+
+  font-family: "Amaranth", sans-serif;
+
+  font-weight: 900;
+
+  border: 1px solid black;
+
+  white-space: nowrap ;
+}
+
+h3 {
+
+  font-family: "Neuton", serif;
+
+  font-size: 25px;
+
+}
+
+input {
+
+  padding: 7px;
+
+  font-family: "Neuton", serif;
+
+  font-size: 22px;
+
+  border-radius: 5px;
+
+  border: none;
+
+  display: block;
+
+}
+
+::placeholder {
+
+  color: #2c3e5065;
+
+}
+
+input:focus {
+
+  outline: none;
+
+}
+
+.back {
+
+  display: block;
+
+  padding: 10px;
+
+  width: 100px;
+
+  margin-top: 10px;
+
+  background-color: rgba(0, 0, 0, 0.3);
+
+  border-radius: 10px;
+
+  border: none;
+
+  font-size: 17px;
+
+  color: #fff;
+
+  font-family: "Neuton", serif;
+
+}
+
+small {
+
+  font-family: "Neuton", serif;
+
+}
+
+.back:hover {
+
+  outline: none;
+
+  opacity: 0.7;
+
+}
+
+.back:focus {
+
+  outline: none;
+
+}
+
+.menu-btn {
+
+  display: block;
+
+  padding: 10px;
+
+  outline: none;
+
+  border: none;
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  width: 160px;
+
+  margin-bottom: 20px;
+
+  font-family: "Amaranth", sans-serif;
+
+  font-size: 23px;
+
+  color: #fff;
+
+  background-color: rgba(34, 25, 25, 0.493);
+
+}
+
+.menu-btn:hover {
+
+  opacity: 0.7;
+
+  cursor: pointer;
+
+}
+
+
+
+#toast {
+
+  visibility: hidden;
+
+  min-width: 250px;
+
+  margin-left: -125px;
+
+  background-color: #333;
+
+  color: #fff;
+
+  text-align: center;
+
+  border-radius: 2px;
+
+  padding: 16px;
+
+  position: fixed;
+
+  z-index: 1;
+
+  left: 50%;
+
+  bottom: 30px;
+
+  font-size: 17px;
+
+}
+
+
+
+#toast.show {
+
+  visibility: visible;
+
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+
+}
+
+
+
+@-webkit-keyframes fadein {
+
+  from {
+
+    bottom: 0;
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    bottom: 30px;
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+@keyframes fadein {
+
+  from {
+
+    bottom: 0;
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    bottom: 30px;
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+@-webkit-keyframes fadeout {
+
+  from {
+
+    bottom: 30px;
+
+    opacity: 1;
+
+  }
+
+  to {
+
+    bottom: 0;
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+@keyframes fadeout {
+
+  from {
+
+    bottom: 30px;
+
+    opacity: 1;
+
+  }
+
+  to {
+
+    bottom: 0;
+
+    opacity: 0;
+
+  }
+
+}
+
+.footer {
+
+  text-align: center;
+
+  font-size: 15px;
+
+}
+
+.footer span {
+
+  display: block;
+
+  font-family: "Amaranth", sans-serif;
+
+}
+
+.about-area h3{
+
+  margin: unset;
+
+  font-size: 17px;
+
+}
+
+.ins{
+
+  font-family: "Amaranth", sans-serif;
+
+}
+
+.loader{
+
+  position: fixed;
+
+  z-index: 9999999;
+
+  background: #fff;
+
+  width: 100%;
+
+  height: 100%;
+
+  top: calc(50vh - 30px);
+
+  text-align: center;
+
+  font-family: 'Oswald', sans-serif;
+
+}
+
+.loader div{
+
+  background: linear-gradient(to right, #87CEEB, #00BFFF);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  font-size: 35px;
+
+  font-family: "Amaranth", sans-serif;
+
+}
+
+#main{
+
+  visibility: hidden;
+
+}
+  </style>
+
+  <title>Typing Speed</title>
+
+</head>
+
+
+<body>
+
+      <div class="loader" id="load">
+
+    <div>Loading....</div>
+
+  </div>
+
+  <div id="main" class="main">
+
+       <div class="menu-area">
+
+      <div class="container">
+
+        <center>
+
+          <h2>Typing Speed</h2>
+
+          <button onclick="startGame()" class="menu-btn">Start Game</button>
+
+          <!-- <button onclick="startLevel()" class="menu-btn">Level</button> -->
+
+          <button onclick="startAbout()" class="menu-btn">About</button>
+
+          <button onclick="this.parentElement.style.display='none'" class="menu-btn">
+
+            Exit
+
+          </button>
+
+          <div class="footer"><span> &copy;2023</span><span>Dzarel Developer</span> </div>
+
+        </center>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="game-area">
+
+      <div class="container">
+
+        <center>
+
+          <h2>Typing Speed</h2>
+
+          <div style="text-align: left;" class="time-left col">
+
+            Time: <span id="time">10s</span>
+
+          </div>
+
+          <div style="text-align: right;" class="score-area col">
+
+            Score: <span id="score">0</span>
+
+          </div>
+
+
+          <small>Ketikkan kata berikut::</small>
+
+          <h1 id="word">AlsaCantik</h1>
+
+          <input type="text" id="input" autocomplete="off" placeholder="Ketik Kata Disini..." />
+
+          <button onclick="resetButton()" class="back col">Restart</button>
+
+          <button onclick="levelTwo()" class="back col2">Next Level</button>
+
+          </center>
+
+      </div>
+
+      
+
+    </div>
+
+
+
+    <!-- <div class="level-area">
+
+        <div class="container">
+
+          <center>
+
+          <h2>👩‍💻 Select Level 👨‍💻</h2>
+
+          <button onclick="levelOne()" class="menu-btn">Level One</button>
+
+          <button onclick="levelTwo()" class="menu-btn">Level Two</button>
+
+          <button class="menu-btn">Level Three</button>
+
+          <button onclick="backButton()" class="back">Back</button>
+
+        </center>
+
+        </div>
+
+      </div> -->
+
+
+
+    <div class="about-area">
+
+      <div class="container">
+
+        <center>
+
+          <h2 style="font-size: 20px;">About Game</h2>
+
+          <p>
+
+            <h3>Name: Typing Speed</h3>
+
+            <h3>Version: 1.0</h3>
+
+            <h3>Creator: Dzarel Developer</h3>
+
+          </p>
+
+          <h3 style="font-size: 20px;">PETUNJUK</h3><hr width="200px">
+
+          <p class="ins">
+
+             Cukup ketikkan kata pada kotak input untuk mencetak skor. Kamu akan mendapat 15 detik dan untuk setiap jawaban yang benar akan mendapat 3+ detik dan 5+ poin.<br>Mari kita lihat keterampilan mengetik Kamu.
+
+          </p>
+
+          <button onclick="backButton()" class="back">Back</button>
+
+        </center>
+
+      </div>
+
+    </div>
+
+    <div class="game-over">
+
+      <div class="container">
+
+        <center>
+
+          <h2>‍ Game Over</h2>
+
+          <h3 class="final-score">&#128546;<br> Your Score <span id="finalscore"></span></h3>
+
+          <button onclick="tryAgain()" class="back">Try Again</button>
+
+        </center>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+
+  
+
+var mainMenu = document.querySelector(".menu-area");
+
+var gameArea = document.querySelector(".game-area");
+
+var levelArea = document.querySelector(".level-area");
+
+var aboutArea = document.querySelector(".about-area");
+
+var inputArea = document.querySelector("#input");
+
+var setWord = document.querySelector("#word");
+
+var setScore = document.querySelector("#score");
+
+var setTime = document.querySelector("#time");
+
+var gameover = document.querySelector(".game-over");
+
+var finalScore = document.querySelector("#finalscore");
+
+var toast = document.querySelector("#toast");
+
+
+
+function startGame() {
+
+  mainMenu.style.display = "none";
+
+  gameArea.style.display = "block";
+
+  inputArea.focus();
+
+  getWord();
+
+  timeInterval = setInterval(timeUpdate, 1000);
+
+  toast.className = "show";
+
+  toast.innerHTML = "Level One";
+
+  setTimeout(function () {
+
+    toast.className = toast.className.replace("show", "");
+
+  }, 3000);
+
+}
+
+function startLevel() {
+
+  mainMenu.style.display = "none";
+
+  levelArea.style.display = "block";
+
+}
+
+function startAbout() {
+
+  mainMenu.style.display = "none";
+
+  aboutArea.style.display = "block";
+
+}
+
+function backButton() {
+
+  mainMenu.style.display = "block";
+
+  if (aboutArea.style.display == "block" || gameArea.style.display == "block") {
+
+    mainMenu.style.display = "block";
+
+    gameArea.style.display = "none";
+
+    aboutArea.style.display = "none";
+
+  }
+
+}
+
+function resetButton() {
+
+  time = 15;
+
+  getWord();
+
+  score = 0;
+
+  setScore.innerHTML = score;
+
+  inputArea.value = "";
+
+  inputArea.focus();
+
+  toast.className = "show";
+
+  toast.innerHTML = "Game Restarted";
+
+  setTimeout(function () {
+
+    toast.className = toast.className.replace("show", "");
+
+  }, 3000);
+
+}
+
+function tryAgain() {
+
+  gameover.style.display = "none";
+
+  gameArea.style.display = "block";
+
+  startGame();
+
+  time = 15;
+
+  score = 0;
+
+  setScore.innerHTML = score;
+
+  inputArea.value = "";
+
+}
+
+var words = [
+
+  "hanger",
+  
+  "storage",
+    
+  "flower", 
+ 
+  "kartu",    
+  
+  "handphone",  
+  
+  "keyboard",
+  
+  "google translate",
+  
+  "hebat",
+  
+  "crhome",
+  
+  "heaven",
+
+  "selir",
+
+  "pegunungan",
+
+  "backpack",
+
+  "smurf",
+
+  "capybara",
+
+  "squidward",
+
+  "someone",
+
+  "to be honest",
+
+  "as soon as possible",
+
+  "paper",
+
+  "stamp",
+
+  "place",
+
+  "question",
+
+  "country",
+
+  "mixed",
+
+  "animal",
+
+  "grass",
+
+  "yesterday",
+  
+  "bath",
+
+  "current",
+
+  "street",
+
+  "glove",
+
+  "mark",
+
+  "discovery",
+
+  "learning",
+
+  "famale",
+
+  "south",
+
+  "short",
+
+  "still",
+
+  "pocket",
+
+  "heart",
+
+];
+
+
+
+var randomWord;
+
+var score = 0;
+
+var time = 15;
+
+
+
+function getRandomWord() {
+
+  return words[Math.floor(Math.random() * words.length)];
+
+}
+
+function getWord() {
+
+  randomWord = getRandomWord();
+
+  setWord.innerHTML = randomWord;
+
+}
+
+function scoreUpdate() {
+
+  score += 5;
+
+  setScore.innerHTML = score;
+
+}
+
+function timeUpdate() {
+
+  time--;
+
+  setTime.innerHTML = time + "s";
+
+
+
+  if (time === 0) {
+
+    clearInterval(timeInterval);
+
+    gameOver();
+
+  }
+
+}
+
+var timeInterval;
+
+function gameOver() {
+
+  gameover.style.display = "block";
+
+  gameArea.style.display = "none";
+
+  finalScore.innerHTML = `${score}`;
+
+}
+
+
+
+inputArea.addEventListener("input", (e) => {
+
+ var textInsert=e.target.value.toLowerCase();  ;
+
+  if (textInsert === randomWord) {
+
+    getWord();
+
+    scoreUpdate();
+
+    e.target.value = "";
+
+
+
+    // if (score <= 10 || score > 50  ) {
+
+    //   time += 1;
+
+    // } else {
+
+    //   time += 5;
+
+    // }
+
+    time += 3;
+
+    timeUpdate();
+
+  }
+
+});
+
+// function levelOne() {
+
+//   startGame();
+
+//   levelArea.style.display = "none";
+
+// }
+
+function levelTwo() {
+
+  toast.className = "show";
+
+  toast.innerHTML = "No level right now";
+
+  setTimeout(function () {
+
+    toast.className = toast.className.replace("show", "");
+
+  }, 3000);
+
+}
+
+(function () {
+
+  var myVar= setTimeout(showPage, 3000);
+
+function showPage(){
+
+    document.getElementById("load").style.display = "none";
+
+    document.getElementById("main").style.visibility = "visible";
+
+}
+
+}) ();
+
+
+  </script>
+
+</body>
+
+
+
+</html>

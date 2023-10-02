@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Focus</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="./style.css">
+<style>
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Fira Mono', monospace;
+	font-size: 16px;
+	background: rgba(33, 46, 59, 1);
+	color: rgba(250,250,255,1);
+}
+
+pre {
+	text-align: center;
+	color: rgba(74, 147, 170, 1);
+}
+
+.content {
+	max-width: 500px;
+	margin: 20px auto;
+}
+
+.app__input, .app__end {
+	text-align: center;
+}
+
+.app__end {
+	margin-top: 40px;
+}
+
+input {
+	outline: none;
+	border: none;
+	margin: 0 0 20px 3px;
+	padding: 8px 5px 0px 0;
+	background: transparent;
+	color: rgba(250,250,255,1);
+	font-size: 20px;
+	border-bottom: 1px dotted rgba(91,114,127,1);
+}
+
+button {
+	background: transparent;
+	border: 1px dashed rgba(250,250,255,1);
+	outline: none;
+	cursor: pointer;
+	color: rgba(250,250,255,1);
+	padding: 8px 30px 9px;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+.app__gen-number {
+	text-align: center;
+}
+
+.app__divider {
+	color: rgba(91,114,127,1);
+	margin: 20px 0;
+}
+
+.app__number {
+	font-size: 36px;
+	color: rgba(244, 89, 87, 1);
+}
+
+.app__info:before,
+.app__info:after {
+	content: ' ';
+	display: table;
+}
+
+.app__info:after {
+	clear: both;
+}
+
+.app__info {
+    text-align: center; 
+}
+
+.app__level, .app__wrong {
+    display: inline-block; 
+    margin: 0 10px; 
+    padding-bottom: 5px; 
+}
+
+.app__level {
+    color: rgba(244, 192, 37, 1);
+}
+
+.app__wrong {
+    color: rgba(244, 89, 87, 1);
+}
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 14px; /* 
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link href="" rel="stylesheet">
+<div class="content">
+<pre>
+---------------------------------------
+
+__________             
+___  ____/____  ______ 
+__  __/  __  / / /  _ \
+_  /___  _  /_/ //  __/
+/_____/  _\__, / \___/ 
+                /____/              
+                          
+Fokus Pada Angka Yang Muncul.
+( Isi Dan Enter )
+
+---------------------------------------
+
+</pre>
+
+		<div id="app"></div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js'></script><script  src="./script.js"></script>
+<script>
+class GenNumber extends React.Component {
+  componentDidUpdate() {
+    let time, digit;
+    // increase showing time depend on level
+    digit = this.props.level.main + 2;
+    time = 100 * Math.min(digit, 5) + 400 * Math.max(digit - 5, 0);
+
+    let number = document.getElementById('number');
+    setTimeout(function () {
+      number.innerHTML = number.innerHTML.replace(/\w/gi, '&#183;');
+    }, time);
+
+  }
+  componentDidMount() {
+    let number = document.getElementById('number');
+    setTimeout(function () {
+      number.innerHTML = number.innerHTML.replace(/\w|\W/gi, '&#183;');
+    }, 1200);
+  }
+  render() {
+    return /*#__PURE__*/(
+      React.createElement("div", { className: "app__gen-number" }, /*#__PURE__*/
+      React.createElement("div", { className: "app__info" }, /*#__PURE__*/
+      React.createElement("p", { className: "app__level" }, "Level: ", this.props.level.main, " - ", this.props.level.sub), /*#__PURE__*/
+      React.createElement("p", { className: "app__wrong" }, "Salah:", this.props.wrong, "/3")), /*#__PURE__*/
+
+      React.createElement("p", { className: "app__divider" }, "############################"), /*#__PURE__*/
+      React.createElement("p", { className: "app__number", id: "number" }, this.props.wrong < 3 ? atob(this.props.question) : '????'), /*#__PURE__*/
+      React.createElement("p", { className: "app__divider" }, "############################")));
+
+
+  }}
+
+
+class InputNumber extends React.Component {
+  constructor() {
+    super();
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+  }
+  handleUserInput(e) {
+    e.preventDefault();
+    let userNumber = btoa(this.userNumber.value);
+    this.userNumber.value = "";
+    this.props.compareUserInput(userNumber);
+  }
+  handleReset() {
+    this.props.onReset();
+  }
+  render() {
+    let layout;
+    if (this.props.wrong < 3) {
+      layout = /*#__PURE__*/React.createElement("div", { className: "app__input" }, /*#__PURE__*/
+      React.createElement("form", { onSubmit: this.handleUserInput }, "Nomornya Adalah:", /*#__PURE__*/
+
+      React.createElement("input", {
+        pattern: "[0-9]+",
+        type: "text",
+        ref: ref => this.userNumber = ref,
+        required: true,
+        autoFocus: true }), /*#__PURE__*/
+      React.createElement("br", null), /*#__PURE__*/
+      React.createElement("br", null)), /*#__PURE__*/
+
+      React.createElement("button", { onClick: this.handleReset }, "Restart"));
+
+    } else {
+      layout = /*#__PURE__*/React.createElement("div", { className: "app__end" }, /*#__PURE__*/
+      React.createElement("div", { class: "app__notify" }, "Better luck next time (\u2727\u03C9\u2727)"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("button", { onClick: this.handleReset }, "Restart"));
+
+    }
+
+    return layout;
+  }}
+
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.compareUserInput = this.compareUserInput.bind(this);
+    this.randomGenerate = this.randomGenerate.bind(this);
+    this.resetState = this.resetState.bind(this);
+    this.state = {
+      question: btoa(this.randomGenerate(2)),
+      level: { main: 1, sub: 1 },
+      wrong: 0 };
+
+  }
+  resetState() {
+    this.setState({
+      question: btoa(this.randomGenerate(2)),
+      level: { main: 1, sub: 1 },
+      wrong: 0 });
+
+  }
+  randomGenerate(digit) {
+    let max = Math.pow(10, digit) - 1,
+    min = Math.pow(10, digit - 1);
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  compareUserInput(userNumber) {
+    let currQuestion = this.state.question,
+    mainLevel = this.state.level.main,
+    subLevel = this.state.level.sub,
+    wrong = this.state.wrong,
+    digit;
+
+    if (userNumber == currQuestion) {
+      if (subLevel < 3) {
+        ++subLevel;
+      } else
+      if (subLevel == 3) {
+        ++mainLevel;
+        subLevel = 1;
+      }
+    } else {
+      ++wrong;
+    }
+    digit = mainLevel + 2;
+
+    this.setState({
+      question: btoa(this.randomGenerate(digit)),
+      level: { main: mainLevel, sub: subLevel },
+      wrong: wrong });
+
+  }
+  render() {
+    return /*#__PURE__*/(
+      React.createElement("div", { className: "main__app" }, /*#__PURE__*/
+      React.createElement(GenNumber, {
+        question: this.state.question,
+        level: this.state.level,
+        wrong: this.state.wrong }), /*#__PURE__*/
+      React.createElement(InputNumber, {
+        compareUserInput: this.compareUserInput,
+        wrong: this.state.wrong,
+        onReset: this.resetState })));
+
+
+  }}
+
+
+ReactDOM.render( /*#__PURE__*/
+React.createElement(App, null),
+document.getElementById('app'));
+</script>
+
+</body>
+</html>

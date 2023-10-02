@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SCREENINTRO</title>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Orbitron" rel="stylesheet">
+        <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+* {
+    margin:0;
+    padding:0;
+    transition:all .25s;
+    font-family:"Orbitron";
+    box-sizing:border-box;
+    user-select:none;
+    scroll-behavior:smooth;
+}
+body {
+    height:100vh;
+    width:100vw;
+    background: linear-gradient(120deg, #3498db, #8e44ad);
+    filter:blur(25px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+#intro {
+    min-height:100vh;
+    width:100vw;
+    background:#151515;
+    z-index:1;
+    top:0;
+    left:0;
+    position:fixed;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#intro #front {
+    position:relative;
+}
+#intro #front, #back {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#intro #front .loader {
+    position:absolute;
+}
+#intro #front .loader .outer .inner {
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#intro #front .loader .outer .inner #number {
+    color:transparent;
+    -webkit-background-clip:text;
+    background-image: linear-gradient(120deg, #3498db, #8e44ad);
+}
+#intro #front svg {
+    top:0;
+    left:0;
+    transform:rotate(-90deg);
+    position:absolute;
+}
+#intro #front svg circle {
+    fill:none;
+    stroke:url(#GradientColor);
+    stroke-width:8px;
+    stroke-dasharray:450;
+}
+#intro #back {
+    position:absolute;
+    flex-direction:column;
+    justify-content:space-around;
+    padding:20px 0;
+    letter-spacing:1px;
+    transform:scale(0);
+}
+#intro #back #wrap {
+    border-radius:6px;
+    background: linear-gradient(120deg, #3498db, #8e44ad);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#intro #back #wrap #span {
+    border-radius:25px;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(10px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+@keyframes focus {
+    0% {
+        filter:blur(10px) brightness(250%);
+        transform:scaleX(2) skewX(45deg);
+    }
+    100% {
+        filter:blur(0px) brightness(100%);
+        transform:scaleX(1) skewX(0deg);
+    }
+}
+#intro #back #wrap #span h1 {
+    font-weight:400;
+    color:transparent;
+    -webkit-background-clip:text;
+    background-image: linear-gradient(120deg, #3498db, #8e44ad);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+@media (max-width:480px) {
+    #intro #front, #back {
+        min-height:200px;
+        width:300px;
+    }
+    #intro #front .loader {
+        min-height:160px;
+        width:160;
+    }
+    #intro #front .loader .outer {
+        min-height:160px;
+        width:160px;
+        padding:20px;
+        border-radius:50%;
+    }
+    #intro #front .loader .outer .inner {
+        min-height:120px;
+        width:120px;
+    }
+    #intro #front .loader .outer .inner #number {
+        font-size:2.55em;
+        font-weight:400;
+        letter-spacing:1px;    
+    }
+    #intro #back #wrap {
+        min-height:55px;
+        width:310px;
+    }
+    #intro #back #wrap #span, #intro #back #wrap #span h1 {
+        min-height:50px;
+        width:305px;
+    }
+    #intro #back #wrap #span h1 {        
+        font-size:34px;
+        padding-left:8.5px;
+        letter-spacing:8px;        
+    }
+}
+@media (max-width:360px) {
+    #intro #front, #back {
+        min-height:200px;
+        width:300px;
+    }
+    #intro #front .loader {
+        min-height:160px;
+        width:160;
+    }
+    #intro #front .loader .outer {
+        min-height:160px;
+        width:160px;
+        padding:20px;
+        border-radius:50%;
+    }
+    #intro #front .loader .outer .inner {
+        min-height:120px;
+        width:120px;
+    }
+    #intro #front .loader .outer .inner #number {
+        font-size:27.75px;
+        font-weight:400;
+        letter-spacing:1px;    
+    }
+    #intro #back #wrap {
+        min-height:55px;
+        width:310px;
+    }
+    #intro #back #wrap #span, #intro #back #wrap #span h1 {
+        min-height:50px;
+        width:305px;
+    }
+    #intro #back #wrap #span h1 {        
+        font-size:25px;
+        padding-left:8.5px;
+        letter-spacing:8px;        
+    }
+}
+@media (max-width:320px) {
+    #intro #front, #back {
+        min-height:200px;
+        width:300px;
+    }
+    #intro #front .loader {
+        min-height:160px;
+        width:160;
+    }
+    #intro #front .loader .outer {
+        min-height:160px;
+        width:160px;
+        padding:20px;
+        border-radius:50%;
+    }
+    #intro #front .loader .outer .inner {
+        min-height:120px;
+        width:120px;
+    }
+    #intro #front .loader .outer .inner #number {
+        font-size:1.7em;
+        font-weight:400;
+        letter-spacing:1px;    
+    }
+    #intro #back #wrap {
+        min-height:55px;
+        width:310px;
+    }
+    #intro #back #wrap #span, #intro #back #wrap #span h1 {
+        min-height:50px;
+        width:305px;
+    }
+    #intro #back #wrap #span h1 {        
+        font-size:22px;
+        padding-left:8.5px;
+        letter-spacing:8px;        
+    }
+}
+a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        a:hover {
+            background-color: #3498db;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="intro">
+            <div id="front">
+                <div class="loader">
+                    <div class="outer">
+                        <div class="inner">
+                            <div id="number">0%</div>
+                        </div>
+                    </div>
+                    <svg height="160px" width="160px">
+                        <defs>
+                            <linearGradient id="GradientColor">
+                                <stop offset="0%" stop-color="#ff2a5a"></stop>
+                                <stop offset="100%" stop-color="blueviolet"></stop>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="80" cy="80" r="70" stroke-linecap="round" id="circle"></circle>
+                    </svg>
+                </div>
+            </div>
+            <div id="back">
+                <div id="wrap">
+                    <span id="span">
+                        <h1 id="Name">GAME-WEB</h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <a href="index(1).html">Ayo Bermain!</a>
+        <script>
+        let i = 0, change
+setTimeout(() => document.body.style.filter = "blur(0px)", 850)
+setTimeout(() => {
+    change = setInterval(() => {
+        i++
+        i >= 100 ? i = 100 : i++
+        number.innerHTML = `${i}%`
+        circle.style.strokeDashoffset = `${450 / 100 * i}`
+    }, 50)
+}, 1100)
+setTimeout(() => {
+    clearInterval(change)
+    front.style.transform = "scale(0)"
+    back.style.transform = "scale(1)"
+    Name.style.animation = "focus 1s alternate"
+}, 4100)
+setTimeout(() => intro.style.transform = "scale(0)", 7000)
+        </script>
+    </body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XoX</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.board {
+    margin-top: 20px;
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+
+/* Styling for when a cell is clicked */
+.cell:active {
+    background-color: #d1d1d1;
+}
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 5px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>TIC-TAC-TOE</h1>
+  <div class="board">
+    <div class="cell" onclick="makeHumanMove(0, 0)"></div>
+    <div class="cell" onclick="makeHumanMove(0, 1)"></div>
+    <div class="cell" onclick="makeHumanMove(0, 2)"></div>
+    <div class="cell" onclick="makeHumanMove(1, 0)"></div>
+    <div class="cell" onclick="makeHumanMove(1, 1)"></div>
+    <div class="cell" onclick="makeHumanMove(1, 2)"></div>
+    <div class="cell" onclick="makeHumanMove(2, 0)"></div>
+    <div class="cell" onclick="makeHumanMove(2, 1)"></div>
+    <div class="cell" onclick="makeHumanMove(2, 2)"></div>
+  </div>
+
+  <script>
+    let board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ];
+
+    const AI = 'X';
+    const HUMAN = 'O';
+
+    function makeHumanMove(row, col) {
+      if (board[row][col] === '') {
+        board[row][col] = HUMAN;
+        updateBoard();
+
+        if (!checkGameOver()) {
+          makeAIMove();
+          updateBoard();
+          checkGameOver(); // Call checkGameOver again after AI's move
+        }
+      }
+    }
+
+    function makeAIMove() {
+      let bestScore = -Infinity;
+      let move;
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (board[i][j] === '') {
+            board[i][j] = AI;
+            let score = minimax(board, 0, false);
+            board[i][j] = '';
+            if (score > bestScore) {
+              bestScore = score;
+              move = { row: i, col: j };
+            }
+          }
+        }
+      }
+
+      board[move.row][move.col] = AI;
+    }
+
+    function minimax(board, depth, isMaximizing) {
+      let result = checkWinner();
+      if (result === AI) {
+        return 10 - depth;
+      } else if (result === HUMAN) {
+        return depth - 10;
+      } else if (checkTie()) {
+        return 0;
+      }
+
+      if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              board[i][j] = AI;
+              let score = minimax(board, depth + 1, false);
+              board[i][j] = '';
+              bestScore = Math.max(score, bestScore);
+            }
+          }
+        }
+        return bestScore;
+      } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              board[i][j] = HUMAN;
+              let score = minimax(board, depth + 1, true);
+              board[i][j] = '';
+              bestScore = Math.min(score, bestScore);
+            }
+          }
+        }
+        return bestScore;
+      }
+    }
+
+    function checkWinner() {
+      const winningCombination = [
+        [board[0][0], board[0][1], board[0][2]],
+        [board[1][0], board[1][1], board[1][2]],
+        [board[2][0], board[2][1], board[2][2]],
+        [board[0][0], board[1][0], board[2][0]],
+        [board[0][1], board[1][1], board[2][1]],
+        [board[0][2], board[1][2], board[2][2]],
+        [board[0][0], board[1][1], board[2][2]],
+        [board[0][2], board[1][1], board[2][0]],
+      ];
+
+      for (const combination of winningCombination) {
+        if (combination.every((cell) => cell === AI)) {
+          return AI; // AI wins
+        } else if (combination.every((cell) => cell === HUMAN)) {
+          return HUMAN; // Human wins
+        }
+      }
+
+      return null; // No winner yet
+    }
+
+    function checkTie() {
+      return board.flat().every((cell) => cell !== ''); // True if all cells are filled
+    }
+
+    function checkGameOver() {
+      const winner = checkWinner();
+      if (winner) {
+        alert(`${winner} wins!`);
+        resetGame();
+        return true;
+      } else if (checkTie()) {
+        alert("TIE!");
+        resetGame();
+        return true;
+      }
+      return false;
+    }
+
+    function updateBoard() {
+      const cells = document.querySelectorAll('.cell');
+      for (let i = 0; i < cells.length; i++) {
+        const row = Math.floor(i / 3);
+        const col = i % 3;
+        cells[i].textContent = board[row][col];
+      }
+    }
+
+    function resetGame() {
+      board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', ''],
+      ];
+      updateBoard();
+    }
+
+    // Initial board update
+    updateBoard();
+  </script>
+</body>
+</html>

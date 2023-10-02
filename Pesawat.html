@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aircraft</title>
+    </head>
+    <body>
+    <div id="gameblock">
+<div id="plane"><svg fill="red" opacity="1.0" width="50" height="50" viewBox="0 0 512 512"><path d="M448 336v-40L288 192V79.2c0-17.683-14.82-31.2-32-31.2-17.179 0-32 13.518-32 31.2V192L64 296v40l160-48v113.602l-48 31.199V464l80-16 80 16v-31.199l-48-31.199V288l160 48z"/></svg></div>
+<div class="rocket" id="r1"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div class="rocket" id="r2"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div class="rocket" id="r3"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div class="rocket" id="r4"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div class="rocket" id="r5"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div class="rocket" id="r6"><svg fill="black" opacity="1.0" width="25" height="25" viewBox="0 0 17 17"><path d="M12 11V5c0-5-3-5-3-5S6 0 6 5v6s-2 0-2 6c0 0 2.38-2.375 4.312-2.895.004.582.31 1.05.688 1.05s.684-.47.688-1.05C11.62 14.625 14 17 14 17c0-6-2-6-2-6zM9 1c.26.022 1.667.27 1.947 3H7.053C7.333 1.27 8.74 1.022 9 1zm0 12c-1.27 0-2.742.868-3.877 1.717.263-2.12.86-2.63.993-2.717H7V5h4v7h.884c.134.088.73.596.993 2.717C11.742 13.867 10.27 13 9 13z"/></svg></div>
+<div id="times"><svg fill="white" opacity="1.0" width="35" height="35" viewBox="0 0 24 28"><path d="M14 8.5v7c0 .281-.219.5-.5.5h-5a.494.494 0 0 1-.5-.5v-1c0-.281.219-.5.5-.5H12V8.5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zm6.5 5.5c0-4.688-3.813-8.5-8.5-8.5S3.5 9.313 3.5 14s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5zm3.5 0c0 6.625-5.375 12-12 12S0 20.625 0 14 5.375 2 12 2s12 5.375 12 12z"/></svg>
+<span id="gametime">0</span></div>
+</div>
+<div id="gameover"><p id="go"> Avoid Airplanes From falling Rockets</p>
+<br><div id="startbtn" ontouchstart="startGame()">Start Game</div></div>
+<br><div class="btn" ontouchstart="left()"><<<</div><div class="btn" ontouchstart="right()">>>></div>
+<style type="text/css">
+body {
+  text-align: center;
+  user-select: none;
+  background: lightsteelblue;
+}
+
+.btn {
+  width: 100px;
+  margin: 10px;
+  background: white;
+  border-radius: 10px;
+  color: royalblue;
+  font-size: 25px;
+  padding: 15px;
+  display: inline-block;
+}
+
+#plane {
+  position: absolute;
+  top: 200px;
+  left: 200px;
+  z-index: 2;
+  transition: top, left 0.15s;
+  -webkit-transition: top, left 0.15s;
+  -moz-transition: top, left 0.15s;
+}
+
+#times {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#gametime {
+  font-size: 25px;
+  color: white;
+}
+
+#gameover {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  right: 20px;
+  left: 20px;
+  background: whitesmoke;
+  border-radius: 20px;
+  z-index: 3;
+  padding: 10px;
+  font-size: 25px;
+  font-family: Courier new, monospace;
+}
+
+#startbtn {
+  width: 180px;
+  display: inline-block;
+  padding: 15px;
+  margin-top: 25px;
+  border-radius: 15px;
+  background: royalblue;
+  color: white;
+}
+
+#r1 {
+  left: 20px;
+}
+
+#r2 {
+  left: 75px;
+}
+
+#r3 {
+  left: 125px;
+}
+
+#r4 {
+  left: 175px;
+}
+
+#r5 {
+  left: 225px;
+}
+
+#r6 {
+  left: 275px;
+}
+
+.rocket {
+  position: absolute;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+}
+
+#gameblock {
+  width: 300px;
+  height: 500px;
+  position: relative;
+  display: inline-block;
+  border: 2px solid black;
+  background: royalblue;
+  overflow: hidden;
+}
+</style>
+<script type="text/javascript">
+var x = 125;
+var y = 200;
+var falls = ["rfall1()", "rfall2()", "rfall3()", "rfall4()", "rfall5()", "rfall6()"];
+var time = 500;
+var ftime = 30;
+var gtime = 0;
+var rx1 = 20;
+var ry1 = -30;
+var rx2 = 75;
+var ry2 = -30;
+var rx3 = 125;
+var ry3 = -30;
+var rx4 = 175;
+var ry4 = -30;
+var rx5 = 225;
+var ry5 = -30;
+var rx6 = 275;
+var ry6 = -30;
+var process;
+var randfall;
+var timeintv;
+var gameIsOver = false;
+var gameovr = document.querySelector("#gameover");
+
+update();
+
+function gameprocess() {
+  process = setTimeout("gameprocess()", 10);
+  if (!gameIsOver) {
+    if (x > rx1 - 50 && x < rx1 + 25 && y > ry1 - 50 && y < ry1 + 25) {
+      gameover();
+    }
+    if (x > rx2 - 50 && x < rx2 + 25 && y > ry2 - 50 && y < ry2 + 25) {
+      gameover();
+    }
+    if (x > rx3 - 50 && x < rx3 + 25 && y > ry3 - 50 && y < ry3 + 25) {
+      gameover();
+    }
+    if (x > rx4 - 50 && x < rx4 + 25 && y > ry4 - 50 && y < ry4 + 25) {
+      gameover();
+    }
+    if (x > rx5 - 50 && x < rx5 + 25 && y > ry5 - 50 && y < ry5 + 25) {
+      gameover();
+    }
+    if (x > rx6 - 50 && x < rx6 + 25 && y > ry6 - 50 && y < ry6 + 25) {
+      gameover();
+    }
+  }
+}
+
+function gameover() {
+  clearInterval(process);
+  clearInterval(randfall);
+  gameIsOver = true;
+  gameovr.style.display = "block";
+  go.innerHTML = "Game over<br>Your time: " + gtime + " seconds";
+}
+
+function startGame() {
+  gameIsOver = false;
+  gameovr.style.display = "none";
+  ry1 = -30;
+  ry2 = -30;
+  ry3 = -30;
+  ry4 = -30;
+  ry5 = -30;
+  ry6 = -30;
+  x = 125;
+  gtime = 0;
+  gametime.innerHTML = gtime;
+  update();
+  gameprocess();
+  randfall = setTimeout(randomFall, time);
+}
+
+timeintv = setInterval(setTime, 1000);
+
+function setTime() {
+  if (!gameIsOver) {
+    gtime++;
+    gametime.innerHTML = gtime;
+  }
+}
+
+function randomFall() {
+  if (!gameIsOver) {
+    var fall = falls[Math.floor(Math.random() * falls.length)];
+    setTimeout(() => {
+      if (fall === 'rfall1()') {
+        rfall1();
+      } else if (fall === 'rfall2()') {
+        rfall2();
+      } else if (fall === 'rfall3()') {
+        rfall3();
+      } else if (fall === 'rfall4()') {
+        rfall4();
+      } else if (fall === 'rfall5()') {
+        rfall5();
+      } else if (fall === 'rfall6()') {
+        rfall6();
+      }
+      randomFall();
+    }, 500); // Delay antara jatuhnya roket (500ms dalam contoh ini)
+  }
+}
+
+function update() {
+  r1.style.top = ry1 + "px";
+  r2.style.top = ry2 + "px";
+  r3.style.top = ry3 + "px";
+  r4.style.top = ry4 + "px";
+  r5.style.top = ry5 + "px";
+  r6.style.top = ry6 + "px";
+  plane.style.left = x + "px";
+}
+
+function right() {
+  if (!gameIsOver) {
+    x += 25;
+    update();
+    if (x >= 250) {
+      x = 250;
+      update();
+    }
+  }
+}
+
+function left() {
+  if (!gameIsOver) {
+    x -= 25;
+    update();
+    if (x <= 0) {
+      x = 0;
+      update();
+    }
+  }
+}
+
+function rfall1() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall1, ftime);
+    if (ry1 < 530) { 
+      ry1 += 5;
+      r1.style.top = ry1 + "px";
+    } else {
+      ry1 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+
+function rfall2() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall2, ftime);
+    if (ry2 < 530) { 
+      ry2 += 5;
+      r2.style.top = ry2 + "px";
+    } else {
+      ry2 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+
+function rfall3() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall3, ftime);
+    if (ry3 < 530) { 
+      ry3 += 5;
+      r3.style.top = ry3 + "px";
+    } else {
+      ry3 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+
+function rfall4() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall4, ftime);
+    if (ry4 < 530) { 
+      ry4 += 5;
+      r4.style.top = ry4 + "px";
+    } else {
+      ry4 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+
+function rfall5() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall5, ftime);
+    if (ry5 < 530) { 
+      ry5 += 5;
+      r5.style.top = ry5 + "px";
+    } else {
+      ry5 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+
+function rfall6() {
+  if (!gameIsOver) {
+    var intv = setTimeout(rfall6, ftime);
+    if (ry6 < 530) { 
+      ry6 += 5;
+      r6.style.top = ry6 + "px";
+    } else {
+      ry6 = -30;
+      clearInterval(intv);
+    }
+    update();
+  }
+}
+</script>
+    </body>
+</html>

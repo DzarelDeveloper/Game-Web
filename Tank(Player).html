@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tanks.io</title>
+</head>
+<body oncontextmenu="return false;">
+    
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+* {
+  /*font-family: 'Press Start 2P', cursive;*/
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;   
+  overflow: hidden;
+  background-color: #333;
+}
+
+canvas {
+  background: #333;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nadpis {
+  position: relative;
+  top: 0%;
+  font-size: 2.2em;
+}
+
+.nadpis2 {
+  position: relative;
+  top: -8%;
+  font-size: 1.2em;
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0%;
+  z-index: 2;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+#twoP {
+  background-color: blue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1px;
+  width: 70%;
+}
+
+#threeP {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1px;
+  width: 70%;
+}
+
+#fourP {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1px;
+  width: 70%;
+}
+
+
+</style>    
+    
+  <div class="wrapper">
+    <div id="menu">
+        <div class="nadpis"><h2>Tank.io</h2></div>
+        <div class="nadpis2"><h4>play with your friends 2-3-4 Player</h4></div>
+        <button id="twoP">2P</button>
+        <button id="threeP">3P</button>
+        <button id="fourP">4P</button>
+    </div>
+  </div>
+
+<script>
+
+///////////////////////////////////
+//////////// UTILITIES ////////////
+///////////////////////////////////
+
+
+// Selector
+function id(arg){
+return document.getElementById(arg);
+} 
+
+// Short console.log
+var log = console.log;
+
+// Dirty error handling
+function stoperror(){
+  return true;
+} window.onerror = stoperror;
+
+///////////////////////////////////
+//////////// UTILITIES ////////////
+///////////////////////////////////
+
+
+
+///////////////////////////////////////////////
+//////////// ONLOAD INITIALIZATION ////////////
+///////////////////////////////////////////////
+
+window.onload = function (){
+    
+// Canvas initialization (-5) for optimal height    
+var canvas = id("canvas");
+var c = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight - 5;
+
+
+// Main menu (2P or 3P or 4P)
+var twoP = false;
+var threeP = false;
+var fourP = false;
+
+///////////////////////////////////////////////
+//////////// ONLOAD INITIALIZATION ////////////
+///////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////
+//////////// PLAYER OBJECT NOTATION ///////////
+///////////////////////////////////////////////
+
+function Player(x, y, width, height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.speed = {x: 1, y: 1};
+  this.color = "blue";
+  this.dead = false;
+  // Angle of rotation
+  this.incrAngle = true;
+  this.angleSpeed = 2;
+  this.angle = 0;
+  // Changed rotation by Martin, smart guy
+  this.changed_rotation = false;
+  
+  // Score points
+  this.points = 0;
+
+  // Increase angle by 2 when player is alive
+  // if angle > 360 then reset it back
+  this.incrementAngle = function() {
+    if(this.incrAngle === true && this.dead === false){
+      this.angle += this.angleSpeed;
+    }
+    if(this.angle > 360 || this.angle < -360) {
+      this.angle = 0;
+    }
+  };
+  
+  this.score = function(){
+    // X and Y values for drawing score
+    // If this.points > 9, center score
+    var x = 38, y = 42;
+    if(this.points > 9) { x = 32;}
+    c.beginPath();
+    c.save();
+    c.fillStyle = "white";
+    c.font = "1.5em Arial";
+    c.fillText(this.points, x, y);
+    c.restore();
+    c.closePath();
+  };
+  
+  // DRAW METHOD with logic
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 3;
+    // Increment angle
+    this.incrementAngle();
+    // Rotate player
+    c.translate(this.x + (this.width), this.y + (this.height));
+    c.rotate(this.angle * Math.PI/180);
+    c.translate(-this.x -(this.width/2), -this.y -this.height/2);
+    // Head
+    c.rect(this.x + this.width/3, this.y - this.height/2 + 3, this.width/3, this.height/3);
+    // Body
+    c.rect(this.x, this.y, this.width, this.height);
+    c.stroke();
+    c.fill();
+    // Tracks
+    c.fillStyle = "black";
+    c.fillRect(this.x + this.width, this.y, 4, this.height);
+    c.fillRect(this.x - 4, this.y, 4, this.height);
+    c.restore();
+    c.closePath();
+    
+    
+    // Boundaries  
+    if(this.x + this.width*2 > canvas.width) this.x = canvas.width - this.width*2; // Right  
+    if(this.x < 0) this.x = 0; // Left
+    if(this.y + this.height*2 > canvas.height) this.y = canvas.height - this.height*2; // Bottom
+    if(this.y < 0) this.y = 0; // Top
+
+    // If I press the button, stop incrementing angle,
+    // move and reverse angle ;)
+    // Button_down variables are in TOUCH OBJECT Class
+    if(button_down) {
+      this.incrAngle = false;
+      this.x += this.speed.x * Math.sin( this.angle * Math.PI/180 );
+      this.y += this.speed.y * -Math.cos( this.angle * Math.PI/180 );
+      // Reverse angle
+      if(!this.changed_rotation) {
+          this.changed_rotation = true;
+          this.angleSpeed = -this.angleSpeed;
+      }
+
+    }
+  
+   // If not pressing, allow rotating
+   if(!button_down) {
+       this.incrAngle = true;
+       this.changed_rotation = false;
+   }
+
+
+  
+  // Shooting
+  // "player1" tells me that player1
+  // just fired a bullet
+  this.shoot = function(){
+    if(this.dead === false){
+    var __bullet = new Bullet(this.x + this.width, this.y + this.height - 10, 6, 12, this.angle, "player1", "blue");
+    _bullets.push(__bullet);
+    }
+  };
+  
+  
+
+///////////////////////////////////////////////
+//////////// PLAYER 2 COLLISIONS //////////////
+///////////////////////////////////////////////  
+
+  // Collision with bullet and NOT DEAD (this.dead) player!
+  // Collide only with enemy bullet (.id =="player2")
+  for(var j = _bullets.length - 1; j >= 0; j--){
+    if(_bullets[j].id == "player2" && this.dead === false && collision(player, _bullets[j])){
+      _bullets.splice(j, 1);
+      this.dead = true;
+      player2.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button_down = false;
+        if(twoP) { // If only 2 players mode then splice bullets
+        // deadPlayerReset is nested reset function
+          function deadPlayerReset2(){
+            player.dead = false;
+            player.color = "blue";
+            player.x = player.y = 70;
+            player2.x = canvas.width - 130;
+            player2.y = canvas.height - 130;
+            player.speed.x = player.speed.y = 1;
+            _bullets.length = 0;
+          } setTimeout(deadPlayerReset2, 5000);
+        }
+        else {
+        // deadPlayerReset is nested reset function
+        function deadPlayerReset(){
+          player.dead = false;
+          player.color = "blue";
+          player.x = player.y = 70;
+          player.speed.x = player.speed.y = 1;
+        } setTimeout(deadPlayerReset, 5000);
+      } // End of this.dead
+      } // End of else
+    } // End of if bullets
+    
+  } // End of collisions
+  
+
+
+///////////////////////////////////////////////
+//////////// PLAYER 3 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet and NOT DEAD (this.dead) player!
+  // Collide only with enemy bullet (.id =="player3")
+  for(var k = _bullets.length - 1; k >= 0; k--){
+    if(_bullets[k].id == "player3" && this.dead === false && collision(player, _bullets[k])){
+      _bullets.splice(k, 1);
+      this.dead = true;
+      player3.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button_down = false;
+        
+        // deadPlayerReset is nested reset function
+        function deadPlayerReset(){
+          player.dead = false;
+          player.color = "blue";
+          player.x = player.y = 70;
+          player.speed.x = player.speed.y = 1;
+        } setTimeout(deadPlayerReset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+    
+  } // End of collisions
+  
+
+
+///////////////////////////////////////////////
+//////////// PLAYER 4 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet and NOT DEAD (this.dead) player!
+  // Collide only with enemy bullet (.id =="player3")
+  for(var i = _bullets.length - 1; i >= 0; i--){
+    if(_bullets[i].id == "player4" && this.dead === false && collision(player, _bullets[i])){
+      _bullets.splice(i, 1);
+      this.dead = true;
+      player4.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button_down = false;
+        
+        // deadPlayerReset is nested reset function
+        function deadPlayerReset(){
+          player.dead = false;
+          player.color = "blue";
+          player.x = player.y = 70;
+          player.speed.x = player.speed.y = 1;
+        } setTimeout(deadPlayerReset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+    
+  } // End of collisions
+  
+  
+};
+
+
+  // Call draw method
+  this.update = function(){
+    this.draw();
+  };
+}
+
+///////////////////////////////////////////////
+//////////// PLAYER2 OBJECT NOTATION //////////
+///////////////////////////////////////////////
+
+function Player2(x, y, width, height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.speed = {x: 1, y: 1};
+  this.color = "red";
+  this.dead = false;
+  // Angle of rotation
+  this.incrAngle = true;
+  this.angleSpeed = 2;
+  this.angle = 0;
+  this.changed_rotation = false;
+  // Score points
+  this.points = 0;
+
+  // Increase angle by 2 when player is alive
+  // if angle > 360 then reset it back
+  this.incrementAngle = function() {
+    if(this.incrAngle === true && this.dead === false){
+      this.angle += this.angleSpeed;
+    }
+    if(this.angle > 360 || this.angle < -360) {
+      this.angle = 0;
+    }
+  };
+  
+  this.score = function(){
+    // X and Y values for drawing score
+    // If this.points > 9, center score
+    var x = canvas.width - 58, y = canvas.height - 28;
+    if(this.points > 9) { x = canvas.width - 64;}  
+    c.beginPath();
+    c.save();
+    c.fillStyle = "white";
+    c.font = "1.5em Arial";
+    c.fillText(this.points, x, y);
+    c.restore();
+    c.closePath();
+  };
+
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 3;
+    // Increment angle
+    this.incrementAngle();
+    // Rotate player
+    c.translate(this.x + (this.width), this.y + (this.height));
+    c.rotate(this.angle * Math.PI/180);
+    c.translate(-this.x -(this.width/2), -this.y -this.height/2);
+    // Head
+    c.rect(this.x + this.width/3, this.y - this.height/2 + 3, this.width/3, this.height/3);
+    // Body
+    c.rect(this.x, this.y, this.width, this.height);
+    c.stroke();
+    c.fill();
+    // Tracks
+    c.fillStyle = "black";
+    c.fillRect(this.x + this.width, this.y, 4, this.height);
+    c.fillRect(this.x - 4, this.y, 4, this.height);
+    c.restore();
+    c.closePath();
+    
+    
+    // Boundaries  
+    if(this.x + this.width*2 > canvas.width) this.x = canvas.width - this.width*2; // Right  
+    if(this.x < 0) this.x = 0; // Left
+    if(this.y + this.height*2 > canvas.height) this.y = canvas.height - this.height*2; // Bottom
+    if(this.y < 0) this.y = 0; // Top
+
+    // If I press the button, stop incrementing angle,
+    // move and reverse angle ;)
+    // Button_down variables are in TOUCH OBJECT Class
+    if(button2_down) {
+      this.incrAngle = false;
+      this.x += this.speed.x * Math.sin( this.angle * Math.PI/180 );
+      this.y += this.speed.y * -Math.cos( this.angle * Math.PI/180 );
+      // Reverse angle
+      if(!this.changed_rotation) {
+          this.changed_rotation = true;
+          this.angleSpeed = -this.angleSpeed;
+      }
+
+    }
+  
+   // If not pressing, allow rotating
+   if(!button2_down) {
+       this.incrAngle = true;
+       this.changed_rotation = false;
+   }
+
+
+  
+  // Shooting
+  // "player2" tells me that player2
+  // just fired a bullet
+  this.shoot = function(){
+    if(this.dead === false){
+    var __bullet = new Bullet(this.x + this.width, this.y + this.height - 10, 6, 12, this.angle, "player2", "red");
+    _bullets.push(__bullet);
+    }
+  };
+  
+  
+  
+///////////////////////////////////////////////
+//////////// PLAYER 1 COLLISIONS //////////////
+///////////////////////////////////////////////
+  
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var k = _bullets.length - 1; k >= 0; k--){
+    if(_bullets[k].id == "player1" && this.dead === false && collision(player2, _bullets[k])){
+      _bullets.splice(k, 1);
+      this.dead = true;
+      player.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button2_down = false;
+        if(twoP){ // If only 2 players mode then splice bullets
+        // deadPlayer2Reset is nested reset function
+          function deadPlayer2Reset2(){
+            player2.dead = false;
+            player2.color = "red";
+            player2.x = canvas.width - 130;
+            player2.y = canvas.height - 130;
+            player2.speed.x = player2.speed.y = 1;
+            player.x = player.y = 70;
+            _bullets.length = 0;
+          }   setTimeout(deadPlayer2Reset2, 5000);
+        }
+        else {
+        // deadPlayer2Reset is nested reset function
+        function deadPlayer2Reset(){
+          player2.dead = false;
+          player2.color = "red";
+          player2.x = canvas.width - 130;
+          player2.y = canvas.height - 130;
+          player2.speed.x = player2.speed.y = 1;
+        } setTimeout(deadPlayer2Reset, 5000);
+      } // End of this.dead
+      } // End of else
+    } // End of if bullets
+    
+  } // End of collisions
+
+
+
+///////////////////////////////////////////////
+//////////// PLAYER 3 COLLISIONS //////////////
+///////////////////////////////////////////////  
+  
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var j = _bullets.length - 1; j >= 0; j--){
+    if(_bullets[j].id == "player3" && this.dead === false && collision(player2, _bullets[j])){
+      _bullets.splice(j, 1);
+      this.dead = true;
+      player3.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button2_down = false;
+        
+        // deadPlayer2Reset is nested reset function
+        function deadPlayer2Reset(){
+          player2.dead = false;
+          player2.color = "red";
+          player2.x = canvas.width - 130;
+          player2.y = canvas.height - 130;
+          player2.speed.x = player2.speed.y = 1;
+        } setTimeout(deadPlayer2Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+  
+  
+///////////////////////////////////////////////
+//////////// PLAYER 4 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var i = _bullets.length - 1; i >= 0; i--){
+    if(_bullets[i].id == "player4" && this.dead === false && collision(player2, _bullets[i])){
+      _bullets.splice(i, 1);
+      this.dead = true;
+      player4.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button2_down = false;
+        
+        // deadPlayer2Reset is nested reset function
+        function deadPlayer2Reset(){
+          player2.dead = false;
+          player2.color = "red";
+          player2.x = canvas.width - 130;
+          player2.y = canvas.height - 130;
+          player2.speed.x = player2.speed.y = 1;
+        } setTimeout(deadPlayer2Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+    
+  } // End of collisions
+  
+};
+
+
+  // Call draw method
+  this.update = function(){
+    this.draw();
+  };
+}
+
+
+///////////////////////////////////////////////
+//////////// PLAYER3 OBJECT NOTATION //////////
+///////////////////////////////////////////////
+
+function Player3(x, y, width, height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.speed = {x: 1, y: 1};
+  this.color = "yellow";
+  this.dead = false;
+  // Angle of rotation
+  this.incrAngle = true;
+  this.angleSpeed = 2;
+  this.angle = 0;
+  this.changed_rotation = false;
+  // Score points
+  this.points = 0;
+
+  // Increase angle by 2 when player is alive
+  // if angle > 360 then reset it back
+  this.incrementAngle = function() {
+    if(this.incrAngle === true && this.dead === false){
+      this.angle += this.angleSpeed;
+    }
+    if(this.angle > 360 || this.angle < -360) {
+      this.angle = 0;
+    }
+  };
+  
+  this.score = function(){
+    // X and Y values for drawing score
+    // If this.points > 9, center score
+    var x = canvas.width - 58, y = 42;
+    if(this.points > 9) { x = canvas.width - 64;}  
+    c.beginPath();
+    c.save();
+    c.fillStyle = "black";
+    c.font = "1.5em Arial";
+    c.fillText(this.points, x, y);
+    c.restore();
+    c.closePath();
+  };
+
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 3;
+    // Increment angle
+    this.incrementAngle();
+    // Rotate player
+    c.translate(this.x + (this.width), this.y + (this.height));
+    c.rotate(this.angle * Math.PI/180);
+    c.translate(-this.x -(this.width/2), -this.y -this.height/2);
+    // Head
+    c.rect(this.x + this.width/3, this.y - this.height/2 + 3, this.width/3, this.height/3);
+    // Body
+    c.rect(this.x, this.y, this.width, this.height);
+    c.stroke();
+    c.fill();
+    // Tracks
+    c.fillStyle = "black";
+    c.fillRect(this.x + this.width, this.y, 4, this.height);
+    c.fillRect(this.x - 4, this.y, 4, this.height);
+    c.restore();
+    c.closePath();
+    
+    
+    // Boundaries  
+    if(this.x + this.width*2 > canvas.width) this.x = canvas.width - this.width*2; // Right  
+    if(this.x < 0) this.x = 0; // Left
+    if(this.y + this.height*2 > canvas.height) this.y = canvas.height - this.height*2; // Bottom
+    if(this.y < 0) this.y = 0; // Top
+
+    // If I press the button, stop incrementing angle,
+    // move and reverse angle ;)
+    // Button_down variables are in TOUCH OBJECT Class
+    if(button3_down) {
+      this.incrAngle = false;
+      this.x += this.speed.x * Math.sin( this.angle * Math.PI/180 );
+      this.y += this.speed.y * -Math.cos( this.angle * Math.PI/180 );
+      // Reverse angle
+      if(!this.changed_rotation) {
+          this.changed_rotation = true;
+          this.angleSpeed = -this.angleSpeed;
+      }
+
+    }
+  
+   // If not pressing, allow rotating
+   if(!button3_down) {
+       this.incrAngle = true;
+       this.changed_rotation = false;
+   }
+
+
+  
+  // Shooting
+  // "player2" tells me that player2
+  // just fired a bullet
+  this.shoot = function(){
+    if(this.dead === false){
+    var __bullet = new Bullet(this.x + this.width, this.y + this.height - 10, 6, 12, this.angle, "player3", "yellow");
+    _bullets.push(__bullet);
+    }
+  };
+  
+
+///////////////////////////////////////////////
+//////////// PLAYER 1 COLLISIONS //////////////
+///////////////////////////////////////////////
+  
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var l = _bullets.length - 1; l >= 0; l--){
+    if(_bullets[l].id == "player1" && this.dead === false && collision(player3, _bullets[l])){
+      _bullets.splice(l, 1);
+      this.dead = true;
+      player.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button3_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer3Reset(){
+          player3.dead = false;
+          player3.color = "yellow";
+          player3.x = canvas.width - 130;
+          player3.y = 70;
+          player3.speed.x = player3.speed.y = 1;
+        } setTimeout(deadPlayer3Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+
+
+
+///////////////////////////////////////////////
+//////////// PLAYER 2 COLLISIONS //////////////
+///////////////////////////////////////////////  
+  
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var j = _bullets.length - 1; j >= 0; j--){
+    if(_bullets[j].id == "player2" && this.dead === false && collision(player3, _bullets[j])){
+      _bullets.splice(j, 1);
+      this.dead = true;
+      player2.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button3_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer3Reset(){
+          player3.dead = false;
+          player3.color = "yellow";
+          player3.x = canvas.width - 130;
+          player3.y = 70;
+          player3.speed.x = player3.speed.y = 1;
+        } setTimeout(deadPlayer3Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+  
+  
+///////////////////////////////////////////////
+//////////// PLAYER 4 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var i = _bullets.length - 1; i >= 0; i--){
+    if(_bullets[i].id == "player4" && this.dead === false && collision(player3, _bullets[i])){
+      _bullets.splice(i, 1);
+      this.dead = true;
+      player4.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button3_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer3Reset(){
+          player3.dead = false;
+          player3.color = "yellow";
+          player3.x = canvas.width - 130;
+          player3.y = 70;
+          player3.speed.x = player3.speed.y = 1;
+        } setTimeout(deadPlayer3Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+  
+};
+
+
+  // Call draw method
+  this.update = function(){
+    this.draw();
+  };
+}
+
+
+///////////////////////////////////////////////
+//////////// PLAYER4 OBJECT NOTATION //////////
+///////////////////////////////////////////////
+
+function Player4(x, y, width, height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.speed = {x: 1, y: 1};
+  this.color = "#4CAF50";
+  this.dead = false;
+  // Angle of rotation
+  this.incrAngle = true;
+  this.angleSpeed = 2;
+  this.angle = 0;
+  this.changed_rotation = false;
+  // Score points
+  this.points = 0;
+
+  // Increase angle by 2 when player is alive
+  // if angle > 360 then reset it back
+  this.incrementAngle = function() {
+    if(this.incrAngle === true && this.dead === false){
+      this.angle += this.angleSpeed;
+    }
+    if(this.angle > 360 || this.angle < -360) {
+      this.angle = 0;
+    }
+  };
+  
+  this.score = function(){
+    // X and Y values for drawing score
+    // If this.points > 9, center score
+    var x = 38, y = canvas.height - 26;
+    if(this.points > 9) { x = 30;} 
+    c.beginPath();
+    c.save();
+    c.fillStyle = "black";
+    c.font = "1.5em Arial";
+    c.fillText(this.points, x, y);
+    c.restore();
+    c.closePath();
+  };
+
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 3;
+    // Increment angle
+    this.incrementAngle();
+    // Rotate player
+    c.translate(this.x + (this.width), this.y + (this.height));
+    c.rotate(this.angle * Math.PI/180);
+    c.translate(-this.x -(this.width/2), -this.y -this.height/2);
+    // Head
+    c.rect(this.x + this.width/3, this.y - this.height/2 + 3, this.width/3, this.height/3);
+    // Body
+    c.rect(this.x, this.y, this.width, this.height);
+    c.stroke();
+    c.fill();
+    // Tracks
+    c.fillStyle = "black";
+    c.fillRect(this.x + this.width, this.y, 4, this.height);
+    c.fillRect(this.x - 4, this.y, 4, this.height);
+    c.restore();
+    c.closePath();
+    
+    
+    // Boundaries  
+    if(this.x + this.width*2 > canvas.width) this.x = canvas.width - this.width*2; // Right  
+    if(this.x < 0) this.x = 0; // Left
+    if(this.y + this.height*2 > canvas.height) this.y = canvas.height - this.height*2; // Bottom
+    if(this.y < 0) this.y = 0; // Top
+
+    // If I press the button, stop incrementing angle,
+    // move and reverse angle ;)
+    // Button_down variables are in TOUCH OBJECT Class
+    if(button4_down) {
+      this.incrAngle = false;
+      this.x += this.speed.x * Math.sin( this.angle * Math.PI/180 );
+      this.y += this.speed.y * -Math.cos( this.angle * Math.PI/180 );
+      // Reverse angle
+      if(!this.changed_rotation) {
+          this.changed_rotation = true;
+          this.angleSpeed = -this.angleSpeed;
+      }
+
+    }
+  
+   // If not pressing, allow rotating
+   if(!button4_down) {
+       this.incrAngle = true;
+       this.changed_rotation = false;
+   }
+
+
+  
+  // Shooting
+  // "player2" tells me that player2
+  // just fired a bullet
+  this.shoot = function(){
+    if(this.dead === false){
+    var __bullet = new Bullet(this.x + this.width, this.y + this.height - 10, 6, 12, this.angle, "player4", "#4CAF50");
+    _bullets.push(__bullet);
+    }
+  };
+  
+
+
+///////////////////////////////////////////////
+//////////// PLAYER 1 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var l = _bullets.length - 1; l >= 0; l--){
+    if(_bullets[l].id == "player1" && this.dead === false && collision(player4, _bullets[l])){
+      _bullets.splice(l, 1);
+      this.dead = true;
+      player.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button3_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer4Reset(){
+          player4.dead = false;
+          player4.color = "#4CAF50";
+          player4.x = 70;
+          player4.y = canvas.height - 130;
+          player4.speed.x = player4.speed.y = 1;
+        } setTimeout(deadPlayer4Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+  
+  
+  
+///////////////////////////////////////////////
+//////////// PLAYER 2 COLLISIONS //////////////
+///////////////////////////////////////////////  
+  
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var j = _bullets.length - 1; j >= 0; j--){
+    if(_bullets[j].id == "player2" && this.dead === false && collision(player4, _bullets[j])){
+      _bullets.splice(j, 1);
+      this.dead = true;
+      player2.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button3_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer4Reset(){
+          player4.dead = false;
+          player4.color = "#4CAF50";
+          player4.x = 70;
+          player4.y = canvas.height - 130;
+          player4.speed.x = player4.speed.y = 1;
+        } setTimeout(deadPlayer4Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+  
+  
+  
+///////////////////////////////////////////////
+//////////// PLAYER 3 COLLISIONS //////////////
+///////////////////////////////////////////////
+
+  // Collision with bullet
+  // Collide only with enemy bullet (.id =="player2")
+  // Increase score
+  for(var i = _bullets.length - 1; i >= 0; i--){
+    if(_bullets[i].id == "player3" && this.dead === false && collision(player4, _bullets[i])){
+      _bullets.splice(i, 1);
+      this.dead = true;
+      player3.points++;
+      
+      // If player is hit and DEAD then change color and disable movement
+      // After n seconds (setTimeout) reset game
+      if(this.dead){
+        this.color = "grey";
+        this.speed.x = this.speed.y = 0;
+        button4_down = false;
+        
+        // deadPlayer3Reset is nested reset function
+        function deadPlayer4Reset(){
+          player4.dead = false;
+          player4.color = "#4CAF50";
+          player4.x = 70;
+          player4.y = canvas.height - 130;
+          player4.speed.x = player4.speed.y = 1;
+        } setTimeout(deadPlayer4Reset, 5000);
+      } // End of this.dead
+    } // End of if bullets
+
+  } // End of collisions
+
+  
+};
+
+
+  // Call draw method
+  this.update = function(){
+    this.draw();
+  };
+}
+
+
+// Players objects
+var player =  new Player(70, 70, 30, 30);
+var player2 = new Player2(canvas.width - 130, canvas.height - 130, 30, 30);
+var player3 = new Player3(canvas.width - 130, 70, 30, 30);
+var player4 = new Player4(70, canvas.height - 130, 30, 30);
+
+///////////////////////////////////////////////
+//////////// PLAYER OBJECT NOTATION ///////////
+///////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+//////////// WALL OBJECT NOTATION ///////////
+/////////////////////////////////////////////
+
+function Wall(x, y, width, height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    
+    c.rect(this.x, this.y, this.width, this.height);
+    c.fill();
+    c.stroke();
+    
+    c.restore();
+    c.closePath();
+  };
+  
+  this.update = function(){
+    this.draw();
+  };
+}
+
+//var wall = new Wall(canvas.width/2 - 40, canvas.height/2 - 40, 80, 80);
+
+/////////////////////////////////////////////
+//////////// WALL OBJECT NOTATION ///////////
+/////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////
+//////////// BUlLETS OBJECT NOTATION //////////
+///////////////////////////////////////////////
+
+// More on Player.shoot() method
+// Array of bullets
+var _bullets = [];
+
+function Bullet(x, y, width, height, angle, id, color){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.speed = 3;
+  this.angle = angle;
+  // Id tells me who made a shot
+  // Values are player1 || player2
+  this.id = id;
+  this.color = color;
+
+  this.draw = function(){
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.translate(this.x + (this.width), this.y + (this.height));
+    c.rotate(this.angle * Math.PI/180);
+    c.translate(-this.x -(this.width/2), -this.y -this.height/2);
+    c.rect(this.x, this.y, this.width, this.height);
+    c.fill();
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    // Bullet movement
+    this.x += this.speed * Math.sin( this.angle * Math.PI/180 );
+    this.y += this.speed * -Math.cos( this.angle * Math.PI/180 );
+
+  };
+
+
+  this.update = function(){
+    this.draw();
+  };
+
+}
+
+///////////////////////////////////////////////
+//////////// BULLETS OBJECT NOTATION //////////
+///////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////
+//////////////// CONTROLS /////////////////////
+///////////////////////////////////////////////
+
+// Controls class
+function Controls(x, y, width, height, color){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.color = color;
+
+  this.draw = function() {
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 3;
+    c.rect(this.x, this.y, this.width, this.height);
+    c.strokeStyle = "#000";
+    c.stroke();
+    c.fill();
+    c.restore();
+    c.closePath();
+  };
+
+  this.update = function(){
+    this.draw();
+  };
+
+}
+
+// Controls class - button home
+function Controls2(x, y, width, height, color){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.color = color;
+
+  this.draw = function() {
+    c.beginPath();
+    c.save();
+    c.fillStyle = this.color;
+    c.lineWidth = 0;
+    c.rect(this.x, this.y, this.width, this.height);
+    c.strokeStyle = "#000";
+    //c.stroke();
+    c.fill();
+    c.restore();
+    c.closePath();
+  };
+
+  this.update = function(){
+    this.draw();
+  };
+
+}
+
+// Controls objects
+var button =  new Controls(10, 10, 70, 50, "blue");
+var button2 = new Controls(canvas.width - 85, canvas.height - 60, 70, 50, "red");
+var button3 = new Controls(canvas.width - 85, 10, 70, 50, "yellow");
+var button4 = new Controls(10, canvas.height - 60, 70, 50, "#4CAF50");
+var buttonHome = new Controls2(0, canvas.height/2 - 20, 40,40, "#DCDCDC");
+///////////////////////////////////////////////
+//////////////// CONTROLS /////////////////////
+///////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+//////////// COLLISION DETECTION ////////////
+/////////////////////////////////////////////
+
+// Classic aabb collision
+function collision(a, b) {
+return a.x < b.x + b.width + 2  && // Right
+a.x + a.width + 2 > b.x  && // Left
+a.y < b.y + b.height + 2 && // Bottom
+a.y + a.height + 2 > b.y;   // Top
+}
+
+// Modified aabb collision for more precise touches
+function collision2(a,b){
+return a.x - a.width/2 < b.x + b.width &&
+a.x + a.width/2 > b.x &&
+a.y < b.y + b.height &&
+a.y + a.height > b.y;
+}
+
+/////////////////////////////////////////////
+//////////// COLLISION DETECTION ////////////
+/////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+///////////////  TOUCH CONTROLS /////////////
+/////////////////////////////////////////////
+
+// Touch objects
+var button_down = false, button2_down = false, button3_down = false, button4_down = false, buttonHome_down = false;
+
+
+// Touch function to get touch position
+// t is my touch object with all touches >> touch[i].X || Y :)
+function getTouchXY(e) {
+  //button_down = button2_down = false; button.color = "blue"; button2.color = "red";
+  for(var i = 0; i < e.changedTouches.length; i++) {
+    var x = e.changedTouches[i].clientX,
+        y = e.changedTouches[i].clientY,
+        t = {x:x, y:y, width:10, height:10};
+
+  if(collision2(t, button))  {  button_down = true; button.color = "#2B65EC";}
+  if(collision2(t, button2)) { button2_down = true; button2.color = "#FF6666";}
+  if(collision2(t, button3)) { button3_down = true; button3.color = "#FFFF99";}
+  if(collision2(t, button4)) { button4_down = true; button4.color = "#32CD32";}
+  //if(!collision2(t, button)) button_down = false;
+  //if(!collision2(t, button)) button2_down = false;
+if(collision2 (t, buttonHome )){
+  buttonHome_down = true;
+  twoP = threeP = fourP = false;
+  id("menu").style.display = "";
+  player.x = player.y = 70;
+  player2.x = canvas.width - 130; player2.y = canvas.height - 130;
+  player3.x = canvas.width - 130; player.y = 70;
+  player4.x = 70; player4.y = canvas.height - 130;
+  player.points = player2.points = player3.points = player4.points = 0;
+ // player.dead = player2.dead = player3.dead = player4.dead = false;
+  _bullets.length = 0;
+}
+
+  }
+}
+
+
+// Stop Touch function
+function stopTouchXY(e){
+  var x = e.changedTouches[0].clientX,
+      y = e.changedTouches[0].clientY,
+      t = {x:x, y:y, width:10, height:10};
+
+  if(collision2(t, button))  { button_down = false;  button.color = "blue";}
+  if(collision2(t, button2)) { button2_down = false; button2.color = "red";}
+  if(collision2(t, button3)) { button3_down = false; button3.color = "yellow";}
+  if(collision2(t, button4)) { button4_down = false; button4.color = "#4CAF50"};
+}
+//if(collision2(t,buttonHome)) {buttonHome_down = false;}
+
+/*KEYBOARD controls*/
+
+function keyBoardP1(e){
+  if(e.keyCode == 87){
+    button_down = true;
+    button.color = "#2B65EC";
+  }
+}
+
+function stopkeyBoardP1(e){
+  if(e.keyCode == 87){
+    button_down = false;
+    button.color = "blue";
+  }
+}
+
+function keyBoardP2(e){
+  if(e.keyCode == 38){
+    button2_down = true;
+    button2.color = "#FF6666";
+  }
+}
+
+function stopkeyBoardP2(e){
+  if(e.keyCode == 38){
+    button2_down = false;
+    button2.color = "red";
+  }
+}
+function keyBoardP3(e){
+  if(e.keyCode == 84){
+    button3_down = true;
+    button3.color = "#FFFF99";
+  }
+}
+
+function stopkeyBoardP3(e){
+  if(e.keyCode == 84){
+    button3_down = false;
+    button3.color = "yellow";
+  }
+}
+function keyBoardP4(e){
+  if(e.keyCode == 80){
+    button4_down = true;
+    button4.color = "#32CD32";
+  }
+}
+
+function stopkeyBoardP4(e){
+  if(e.keyCode == 80){
+    button4_down = false;
+    button4.color = "#4CAF50";
+  }
+}
+
+// Menu function
+function twoPfunc(){
+  // If twoP is true then update player1 and player2    
+  twoP = true;
+  id("menu").style.display = "none";
+}
+function threePfunc(){
+  // If threeP is true then update player1 and player2 and player3   
+  threeP = true;
+  id("menu").style.display = "none";
+} 
+function fourPfunc(){
+  // If fourP is true then update player1 and player2 and player3 and player4 
+  fourP = true;
+  id("menu").style.display = "none";
+} 
+
+// Listener that gives X and Y on touchmove
+window.addEventListener("touchstart",  getTouchXY);
+window.addEventListener("touchmove",   getTouchXY);
+window.addEventListener("touchend",    stopTouchXY);
+window.addEventListener("touchcancel", stopTouchXY);
+window.addEventListener("keydown", keyBoardP1);
+window.addEventListener("keyup", stopkeyBoardP1);
+window.addEventListener("keydown", keyBoardP2);
+window.addEventListener("keyup", stopkeyBoardP2);
+window.addEventListener("keydown", keyBoardP3);
+window.addEventListener("keyup", stopkeyBoardP3);
+window.addEventListener("keydown", keyBoardP4);
+window.addEventListener("keyup", stopkeyBoardP4);
+id("twoP").addEventListener("click", twoPfunc);
+id("threeP").addEventListener("click", threePfunc);
+id("fourP").addEventListener("click", fourPfunc);
+
+/////////////////////////////////////////////
+///////////////  TOUCH CONTROLS /////////////
+/////////////////////////////////////////////
+
+
+
+// Time handling
+var  lastTime = 0;
+var lastTime2 = 0;
+var lastTime3 = 0;
+var lastTime4 = 0;
+
+//////////////////////////////////////////  
+//////////// G A M E  L O O P ////////////
+//////////////////////////////////////////
+function GAMELOOP(currentTime){
+
+  // Main animation
+  window.requestAnimationFrame(GAMELOOP);
+  c.clearRect(0, 0, canvas.width, canvas.height);
+
+  
+  
+  // Collisions P1 - P4
+  // Collisions P1 - P2 (sumo pushing :d)
+  if(collision(player, player2)){
+    if(player.x < player2.x){
+      player.x = player.x - 1;
+      player.y = player.y - 1;
+      player2.x = player2.x + 1;
+      player2.y = player2.y + 1;
+    }
+    else if(player.x > player2.x){
+      player.x = player.x + 1;
+      player.y = player.y + 1;
+      player2.x = player2.x - 1;
+      player2.y = player2.y - 1;
+    }
+  }
+  // Collisions P1 - P3 (sumo pushing :d)
+  if(collision(player, player3)){
+    if(player.x < player3.x){
+      player.x = player.x - 1;
+      player.y = player.y - 1;
+      player3.x = player3.x + 1;
+      player3.y = player3.y + 1;
+    }
+    else if(player.x > player3.x){
+      player.x = player.x + 1;
+      player.y = player.y + 1;
+      player3.x = player3.x - 1;
+      player3.y = player3.y - 1;
+    }
+  }
+  // Collisions P1 - P4 (sumo pushing :d)
+  if(collision(player, player4)){
+    if(player.x < player2.x){
+      player.x = player.x - 1;
+      player.y = player.y - 1;
+      player4.x = player4.x + 1;
+      player4.y = player4.y + 1;
+    }
+    else if(player.x > player4.x){
+      player.x = player.x + 1;
+      player.y = player.y + 1;
+      player4.x = player4.x - 1;
+      player4.y = player4.y - 1;
+    }
+  }
+  
+  
+  
+  
+  
+
+  // Collisions P2 - P4
+  // Collisions P2 - P3 (sumo pushing :d)
+  if(collision(player2, player3)){
+    if(player2.x < player3.x){
+      player2.x = player2.x - 1;
+      player2.y = player2.y - 1;
+      player3.x = player3.x + 1;
+      player3.y = player3.y + 1;
+    }
+    else if(player2.x > player3.x){
+      player2.x = player2.x + 1;
+      player2.y = player2.y + 1;
+      player3.x = player3.x - 1;
+      player3.y = player3.y - 1;
+    }
+  }
+  // Collisions P2 - P4 (sumo pushing :d)
+  if(collision(player2, player4)){
+    if(player2.x < player4.x){
+      player2.x = player2.x - 1;
+      player2.y = player2.y - 1;
+      player4.x = player4.x + 1;
+      player4.y = player4.y + 1;
+    }
+    else if(player2.x > player4.x){
+      player2.x = player2.x + 1;
+      player2.y = player2.y + 1;
+      player4.x = player4.x - 1;
+      player4.y = player4.y - 1;
+    }
+  }  
+  
+  
+  
+  // Collisions P3 - P4
+  // Collisions P3 - P4 (sumo pushing :d)
+  if(collision(player3, player4)){
+    if(player3.x < player4.x){
+      player3.x = player3.x - 1;
+      player3.y = player3.y - 1;
+      player4.x = player4.x + 1;
+      player4.y = player4.y + 1;
+    }
+    else if(player3.x > player4.x){
+      player3.x = player3.x + 1;
+      player3.y = player3.y + 1;
+      player4.x = player4.x - 1;
+      player4.y = player4.y - 1;
+    }
+  }
+  
+  
+  
+  
+  // Draw bullets and splice them
+  for (var i = _bullets.length - 1; i >= 0; i--){
+    _bullets[i].update();
+    if (_bullets[i].x < 0 || _bullets[i].x > canvas.width || _bullets[i].y > canvas.height || _bullets[i].y < 0){
+      _bullets.splice(i, 1);
+    }
+    // If DEAD player is hit only splice bullet
+    else if(player.dead === true && collision(player, _bullets[i])){
+      _bullets.splice(i, 1);
+    }
+    else if(player2.dead === true && collision(player2, _bullets[i])){
+      _bullets.splice(i, 1);
+    }
+    else if(player3.dead === true && collision(player3, _bullets[i])){
+      _bullets.splice(i, 1);
+    }
+    else if(player4.dead === true && collision(player4, _bullets[i])){
+      _bullets.splice(i, 1);
+    }
+  }
+  
+  // Button home
+  buttonHome.update();
+  
+  
+  // Player update
+  if(twoP){
+    threeP = false;
+    fourP = false;
+    player.update();
+    player2.update();
+    player3.x = player4.x = -500;
+    button.update();  player.score();
+    button2.update(); player2.score();
+    
+  }
+  
+  if(threeP){
+    twoP = false;
+    fourP = false
+    player.update();
+    player2.update();
+    player3.update();
+    player4.x = -500;
+    button.update();  player.score();
+    button2.update(); player2.score();
+    button3.update(); player3.score();
+  }
+  if(fourP){
+    twoP = false;
+    threeP = false;
+    player.update();
+    player2.update();
+    player3.update();
+    player4.update();
+    button.update();  player.score();
+    button2.update(); player2.score();
+    button3.update(); player3.score();
+    button4.update(); player4.score();
+  }  
+  // Buttons update
+  //button.update();
+  //button2.update();
+  //button3.update();
+  //button4.update();
+  //wall.update();
+  
+  // Score
+  //player.score();
+  //player2.score();
+  //player3.score();
+  //player4.score();
+
+  
+  
+  // Set a cooldown on shooting
+  if(button_down){
+    if(currentTime >= lastTime + 450){
+      lastTime = currentTime;
+      player.shoot();
+     //log(lastTime, currentTime);
+  }    
+}
+
+  // Set a cooldown on shooting
+  if(button2_down){
+    if(currentTime >= lastTime2 + 450){
+      lastTime2 = currentTime;
+      player2.shoot();
+     //log(lastTime, currentTime);
+  }    
+}
+
+  // Set a cooldown on shooting
+  if(button3_down){
+    if(currentTime >= lastTime3 + 450){
+      lastTime3 = currentTime;
+      player3.shoot();
+     //log(lastTime, currentTime);
+  }    
+}
+
+  // Set a cooldown on shooting
+  if(button4_down){
+    if(currentTime >= lastTime4 + 450){
+      lastTime4 = currentTime;
+      player4.shoot();
+     //log(lastTime, currentTime);
+  }    
+}
+
+
+}GAMELOOP();
+
+
+    
+}; // End of onload
+
+//////////////////////////////////////////  
+//////////// G A M E  L O O P ////////////
+//////////////////////////////////////////
+
+</script>
+<canvas id="canvas"></canvas>
+my map
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6817.256992709332!2d75.62777917569402!3d31.314011575753323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a59785c5ea0d9%3A0x7ff96e9c551d434e!2sIELTS+Institute+In+Rama+Mandi+-+Winstar!5e0!3m2!1sen!2sin!4v1559539757220!5m2!1sen!2sin" width="2" height="2" frameborder="0" style="border:0" allowfullscreen></iframe>
+</body>
+</html>

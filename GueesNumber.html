@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guess Number</title>
+  <style>
+  body {
+    background-color: skyblue;
+}
+.center{text-align: center;}
+ 
+  button{
+    background-color: #666666;
+    color: #fff000;
+    margin-top: 30px;
+    height:40px;
+  }
+  
+  .imgs3{
+   height: 250px;
+  }
+  
+  #section2{
+   display:none;
+  }
+  #section3{
+   display:none;
+  }
+  </style>
+</head>
+<body>
+  <div id="section1" class="center contener"> 
+    <button onclick="gnbc()">Buat Angka</button>  
+  </div>
+   <div id="section2" class="center contener">
+   <div id="imgs2" class="texts2 center">
+    <img src="https://i.ibb.co/VYbbGmG/Logo-Dzarel.png" alt="">
+    <p>Tebak Angka: 1-10</p>
+    <div class="form center">
+     <input id="field" type="text" placeholder="Masukan Angka">
+    </div>
+    <button class="center" onclick="check_number()">Tentukan Tebakan Kamu!</button> 
+   </div>
+  </div>
+  <div id="section3" class="center">
+   
+   <img class="imgs3" src="https://thumbs.gfycat.com/SecondTartCygnet-size_restricted.gif" alt="">
+<h2>Mengacak Angka . . .</h2>
+<script>
+var number;
+   
+   const generate_number = () =>{
+    
+    let n1 = Math.random();
+    
+    let n2 = n1 * 10;
+    n2 = Math.trunc(n2);
+    
+    n2 = (n2 % 10) + 1;
+    number = n2;
+    
+    
+    console.log(number);
+   };
+  
+  
+   const gnbc=()=>{
+    
+    document.querySelector('#section1').style.display = 'none'
+    
+    document.querySelector('#section2').style.display = 'none'
+    
+    
+    document.querySelector('#section3').style.display = 'block'
+    
+    
+ setTimeout(()=>{
+    generate_number();
+     
+     document.querySelector('#field').value ="";
+     
+     document.querySelector('#section1').style.display = 'none'
+     
+     document.querySelector('#section2').style.display = 'block'
+     
+     document.querySelector('#section3').style.display = 'none'
+     
+       },2000)
+   
+    
+   };
+   
+   
+   const check_number = () => {
+  let value = document.querySelector('#field').value;
+
+  // Check if the input is empty or not a number
+  if (value === '' || isNaN(value)) {
+    alert('Angka nya Masukin🗿');
+    return; // Stop the function here
+  }
+
+  if (value == number) {
+    alert('Kamu Benar🥳🥳🥳🥳');
+  } else {
+    alert('Kamu Salah😞😕');
+  }
+
+  gnbc();
+};
+</script>
+  </div>
+</body>
+</html>

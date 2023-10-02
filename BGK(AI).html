@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"> 
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/open-sans-y2k" type="text/css"> 
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <style>
+  * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+button,
+input {
+    outline: none;
+}
+
+.btn {
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.main {
+    width: 98%;
+    height: auto;
+    margin: 50px auto;
+    padding: 20px;
+    background: #efecec;
+    text-align: center;
+    border: 4px solid #62929a
+}
+
+.main h2 {
+    margin: 0;
+    font-family: 'OrkneyRegular';
+    color: #363434;
+}
+
+.new-game {
+    margin-top: 30px;
+    background: #62929a;
+    font-family: 'OpenSansYtoKRegular';
+}
+
+.game-info {
+    display: none;
+}
+
+.game-info p {
+    margin: 15px 0 7px;
+}
+
+.game-info .name {
+    width: 70%;
+    padding: 7px;
+    border: 1px solid #777;
+}
+
+.game-info .start {
+    width: 20%;
+    background: #ff9a35;
+    font-family: 'OpenSansYtoKRegular';
+}
+
+.one {
+    display: block;
+}
+
+.two {
+    display: none;
+}
+
+.players {
+    width: 100%;
+    height: auto;
+    margin: 15px 0
+}
+
+.player {
+    width: 40%;
+    display: inline-block;
+    padding: 5px 0;
+    border: 3px solid #62929a
+}
+
+.player p, h4 {
+    font-weight: bold;
+    margin: 0;
+}
+
+.player h4 {
+    color: #363434;
+}
+
+.player p {
+    font-weight: bold;
+    color: #2295aa;
+}
+
+.vs {
+    width: 15%;
+    display: inline-block;
+    font-family: tahoma;
+    font-weight: bold;
+    font-size: 24px;
+    color: #e84545;
+}
+
+.weapons {
+    width: 11%;
+    height: auto;
+    display: inline-block;
+}
+
+.fight {
+    width: 70%;
+    display: inline-block;
+}
+
+.fight img {
+    width: 40%;
+    padding-bottom: 10px
+}
+
+.fight .result {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.player-weapons img {
+    cursor: pointer;
+}
+
+.weapons img {
+    width: 100%;
+    margin: 5px 0;
+}
+
+.reset {
+    display: none;
+    margin-top: 20px;
+    background: #62929a;
+}
+
+.hand-1,
+.hand-2,
+.result {
+    display: none;
+}
+
+.winner {
+    animation: winner .6s infinite alternate;
+}
+
+.lose {
+    color: #df0509;
+}
+
+.win {
+    color: #00BF00;
+}
+
+.draw {
+    color: #4e4e4e;
+}
+
+@keyframes winner {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+footer {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+footer a {
+    font-weight: bold;
+    color: #1f1d1d;
+    text-decoration: none;
+}
+  </style> 
+  <title>Batu Gunting Kertas</title> 
+ </head> 
+ <body> 
+  <div class="main"> 
+   <h2>Batu Gunting Kertas</h2> 
+   <div class="one"> <button class="new-game btn">Mulai</button> 
+    <div class="game-info"> 
+     <p>Siapa Nama Kamu?</p> 
+     <input type="text" name="name" class="name" placeholder="Nama Kamu.." maxlength="13" autofocus> <button class="start btn">Start</button> 
+    </div> 
+   </div> 
+   <div class="two"> 
+    <div class="players"> 
+     <div class="player"> 
+      <h4 class="you"></h4> 
+      <p>(<span class="player-score">0</span>)</p> 
+     </div> 
+     <div class="vs">
+       VS 
+     </div> 
+     <div class="player"> 
+      <h4>Computers</h4> 
+      <p>(<span class="computer-score">0</span>)</p> 
+     </div> 
+    </div> 
+    <div class="weapons player-weapons"> 
+     <img src="https://image.ibb.co/m07DUp/rock.png" alt="" class="hand"> 
+     <img src="https://image.ibb.co/iB8L9p/paper.png" alt="" class="hand"> 
+     <img src="https://image.ibb.co/i53bh9/scissors.png" alt="" class="hand"> 
+    </div> 
+    <div class="fight"> 
+     <img alt="" class="hand-1"> 
+     <img alt="" class="hand-2"> 
+     <div class="result"> 
+     </div> 
+    </div> 
+    <div class="weapons"> 
+     <img src="https://image.ibb.co/m07DUp/rock.png" alt=""> 
+     <img src="https://image.ibb.co/iB8L9p/paper.png" alt=""> 
+     <img src="https://image.ibb.co/i53bh9/scissors.png" alt=""> 
+    </div> <button class="reset btn">Reset</button> 
+   </div> 
+   <script>
+    $(document).ready(function () {
+    $(".new-game").click(function () {
+        $(".game-info").slideDown();
+    });
+});
+
+// Start The New Game 
+$(document).ready(function () {
+    $(".start").click(function () {
+        var playerName = $(".name").val();
+        if (playerName != "") {
+            $(".one").css("display", "none");
+            $(".you").text(playerName);
+            $(".two").css("display", "block");
+        }
+    });
+});
+
+
+// Game Function
+$(document).ready(function () {
+    $(".hand").click(function () {
+        var image_1 = $(this).attr("src"),
+            num = Math.floor((Math.random() * 3) + 1),
+            image_2 = $(".hand-2");
+        if (num == 1) {
+            $(image_2).attr("src", "https://image.ibb.co/m07DUp/rock.png");
+        } else if (num == 2) {
+            $(image_2).attr("src", "https://image.ibb.co/iB8L9p/paper.png");
+        } else if (num == 3) {
+            $(image_2).attr("src", "https://image.ibb.co/i53bh9/scissors.png");
+        }
+        $(".hand-1").attr("src", image_1);
+
+        // Who won?
+        $(document).ready(function () {
+            var image_1_attr = $(".hand-1").attr("src"),
+                image_2_attr = $(image_2).attr("src"),
+                p = $(".player-score").html(),
+                c = $(".computer-score").html(),
+                rock = "https://image.ibb.co/m07DUp/rock.png",
+                paper = "https://image.ibb.co/iB8L9p/paper.png",
+                scissors = "https://image.ibb.co/i53bh9/scissors.png";
+
+            if (image_1_attr == rock) {
+                if (image_2_attr == paper) {
+                    $(".result").text("You Lose!");
+                    $(".result").addClass("lose");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("draw");
+                    $(".hand-2").addClass("winner");
+                    $(".hand-1").removeClass("winner");
+                    $(".computer-score").html(++c);
+                } else if (image_2_attr == scissors) {
+                    $(".result").text("You Win!");
+                    $(".result").addClass("win");
+                    $(".result").removeClass("lose");
+                    $(".result").removeClass("draw");
+                    $(".hand-1").addClass("winner");
+                    $(".hand-2").removeClass("winner");
+                    $(".player-score").html(++p);
+                } else {
+                    $(".result").text("Draw");
+                    $(".result").addClass("draw");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("lose");
+                    $(".hand-1").removeClass("winner");
+                    $(".hand-2").removeClass("winner");
+                }
+            } else if (image_1_attr == paper) {
+                if (image_2_attr == rock) {
+                    $(".result").text("You Win!");
+                    $(".result").addClass("win");
+                    $(".result").removeClass("lose");
+                    $(".result").removeClass("draw");
+                    $(".hand-1").addClass("winner");
+                    $(".hand-2").removeClass("winner");
+                    $(".player-score").html(++p);
+                } else if (image_2_attr == scissors) {
+                    $(".result").text("You Lose!");
+                    $(".result").addClass("lose");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("draw");
+                    $(".hand-2").addClass("winner");
+                    $(".hand-1").removeClass("winner");
+                    $(".computer-score").html(++c);
+                } else {
+                    $(".result").text("Draw");
+                    $(".result").addClass("draw");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("lose");
+                    $(".hand-1").removeClass("winner");
+                    $(".hand-2").removeClass("winner");
+                }
+            } else {
+                if (image_2_attr == rock) {
+                    $(".result").text("You Lose!");
+                    $(".result").addClass("lose");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("draw");
+                    $(".hand-2").addClass("winner");
+                    $(".hand-1").removeClass("winner");
+                    $(".computer-score").html(++c);
+                } else if (image_2_attr == paper) {
+                    $(".result").text("You Win!");
+                    $(".result").addClass("win");
+                    $(".result").removeClass("lose");
+                    $(".result").removeClass("draw");
+                    $(".hand-1").addClass("winner");
+                    $(".hand-2").removeClass("winner");
+                    $(".player-score").html(++p);
+                } else {
+                    $(".result").text("Draw");
+                    $(".result").addClass("draw");
+                    $(".result").removeClass("win");
+                    $(".result").removeClass("lose");
+                    $(".hand-1").removeClass("winner");
+                    $(".hand-2").removeClass("winner");
+                }
+            }
+        });
+
+        $(".hand-1").fadeIn();
+        $(".hand-2").fadeIn();
+        $(".result").fadeIn(1200);
+        $(".reset").fadeIn(1200);
+
+        // Reset
+        $(document).ready(function () {
+            $(".reset").click(function () {
+                $(".hand-1").css("display", "none");
+                $(".hand-2").css("display", "none");
+                $(".result").css("display", "none");
+                $(".reset").css("display", "none");
+                $(".computer-score").html("0");
+                $(".player-score").html("0");
+            });
+        });
+    });
+});
+   </script>
+  </div> 
+ </body>
+</html>

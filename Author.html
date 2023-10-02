@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Author</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+  html{font-family: sans-serif;}
+body{
+  margin:0; 
+  padding:20px; 
+  background-color:#333333; 
+  box-sizing:border-box; 
+  display:grid; 
+  place-content:center; 
+  width:100%; 
+  height:100vh; 
+  min-height:758.5px;
+}
+h1, h2, h3, p{margin:0;}
+img{height:auto;}
+a{
+  text-decoration:none; 
+  color:#ba89ad;
+}
+
+.personal-card-without-js{
+  width:100%; 
+  max-width:319px; 
+  background-color:#ffffff; 
+  display:grid; 
+  border-radius:7px; 
+  overflow:hidden;
+    box-shadow:
+      0 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 1px 2px hsl(0deg 0% 0% / 0.075),
+      0 2px 4px hsl(0deg 0% 0% / 0.075),
+      0 6px 8px hsl(0deg 0% 0% / 0.075),
+      0 8px 16px hsl(0deg 0% 0% / 0.075);
+    }
+.tabs{transition:all ease-out .3s;}
+.tabs input[name="tab-control"]{display:none;}
+
+/* cabecera */
+.tabs .card-header{
+  position:relative; 
+  width:100%; 
+  height:233px; 
+  transition:all ease-out .3s;
+}
+.tabs .card-header .avatar{
+  width:100px; 
+  height:100px; 
+  border-radius:50%; 
+  padding:7px; 
+  background-color:transparent; 
+  border:2px solid rgba(255,255,255,.25); 
+  transition:all ease-out .3s; z-index:2; 
+  position:absolute; 
+  top:20px; 
+  left:50%; 
+  transform:translate(-50%, 0);
+}
+.tabs .card-header .card-user{
+  width:max-content; 
+  display:grid; 
+  grid-gap:7px; 
+  z-index:2; 
+  transition:all ease-out .3s;
+  position:absolute; 
+  bottom:0; 
+  left:50%; 
+  transform:translate(-50%, -50%);
+}
+.tabs .card-header .card-user--fullname{
+  font-size:22px; 
+  transition:all ease-out .3s;
+}
+.tabs .card-header .card-user--jobtitle{
+  position:relative; 
+  left:30px; 
+  font-weight:normal; 
+  font-size:11px; 
+  text-transform:uppercase; 
+  letter-spacing:1.5px; 
+  transition:all ease-out .3s;
+}
+.tabs .card-header .card-header--cover{
+  width:100%; 
+  height:160px; 
+  top:0; 
+  left:0; 
+  background:
+    linear-gradient(-45deg, black, gray)
+    url('https://vivefitness.coach/wp-content/themes/karla/assets/img/me.webp'); 
+  filter:blur(30px); 
+  transform:scale(1.2); 
+  transition:.3s;
+}
+
+/* contenido */
+.tabs .card-content--container{transition:all ease-in-out .3s;}
+.tabs .card-content--container > div{
+  display:none; 
+  animation-name:content; 
+  animation-direction:normal; 
+  animation-duration:0.25s; 
+  animation-timing-function:ease-in-out; 
+  animation-iteration-count:1; 
+  transition:all ease-out .3s;
+}
+@keyframes content{ 
+  from{opacity:0; transform:translateY(5%);} 
+  to {opacity:1; transform:translateY(0);} 
+}
+.tabs .card-content--container .card-content .card-content--title{
+  font-size:16px; 
+  text-align:center; 
+  text-transform:uppercase;
+}
+    /* about-me */
+    .tabs .card-content--container .card-content .bio{line-height:1.6;}
+    .tabs .card-content--container .card-content .social-nav .menu{
+          margin:0; 
+          padding:0; l
+          ist-style:none; 
+          display:flex; 
+          align-items:center; 
+          justify-content:center; 
+          grid-gap:20px;
+    }
+    .tabs .card-content--container .card-content .social-nav .menu li{display:flex;}
+    .tabs .card-content--container .card-content .social-nav .menu li a{
+          font-size:0; 
+          padding:10px; 
+          background-color:#F1E7EE; 
+          border-radius:7px;
+    }
+    .tabs .card-content--container .card-content .social-nav .menu li a:before{
+      padding:8px; 
+      display:inline-block;
+    }
+    .tabs .card-content--container .card-content .social-nav .menu li a[href*="twitter"]:before{
+      content: ''; 
+      background-image: url('https://vivefitness.coach/wp-content/themes/karla/assets/img/icons/about/twitter-brands.svg');
+    }
+    .tabs .card-content--container .card-content .social-nav .menu li a[href*="facebook"]:before{
+      content: ''; 
+      background-image: url('https://vivefitness.coach/wp-content/themes/karla/assets/img/icons/about/facebook-square-brands.svg');
+    }
+    .tabs .card-content--container .card-content .social-nav .menu li a[href*="instagram"]:before{
+      content: ''; 
+      background-image: url('https://vivefitness.coach/wp-content/themes/karla/assets/img/icons/about/instagram-brands.svg');
+    }
+    /* certifications */
+    .tabs .card-content .card-timeline{
+      position:relative; 
+      display:grid; 
+      grid-gap:20px;
+}
+    .tabs .card-content .card-timeline:before{
+      position:absolute; 
+      left:4px; 
+      width:2px; 
+      top:3px; 
+      height:100%; 
+      content:''; 
+      background: linear-gradient(to top, rgba(134, 214, 243, 0) 0%, #75135d 100%);
+}
+    .tabs .card-content .card-timeline .card-item{
+      position:relative; 
+      padding-left:26px; 
+      z-index:1;
+}
+    .tabs .card-content .card-timeline .card-item:after {
+        content:attr(data-year);
+        width:10px;
+        position:absolute;
+        top:3px;
+        left:-3px;
+        width:8px;
+        height:8px;
+        line-height:.6;
+        border:4px solid #f6f6f6;
+        font-size:11px;
+        text-indent:-35px;
+        border-radius:50%;
+        color:#b6b6b6;
+        background-color:#75135d;
+    }
+    .tabs .card-content .card-timeline .card-item .card-item-title{font-size:14px;}
+    .tabs .card-content .card-timeline .card-item .card-item-desc{
+      font-size:13px;
+      color:#b6b6b6;
+    }
+/* botones */
+.tabs .card-btns{
+  margin:0; 
+  padding:0; 
+  list-style:none; 
+  display:grid; 
+  grid-template-columns:repeat(3, 1fr);
+}
+.tabs .card-btns li label{
+  cursor:pointer;
+  position:relative; 
+  display:grid; 
+  place-items:center; 
+  height:44px; 
+  transition:all ease-out .3s;
+}
+.tabs .card-btns li label:hover{background-color:#e6e6e6;}
+
+/* transiciones y efectos */
+    /* card-header */
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header{height:112px;}
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header .card-header--cover,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header .card-header--cover{height:97px;}
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header .avatar,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header .avatar{
+      width:50px; 
+      height:50px; 
+      left:20px; 
+      transform:translate(0, 2px);
+    }
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header .card-user,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header .card-user{
+      left:180px; 
+      transform:translate(-50%, -89%);
+    }
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header .card-user .card-user--fullname,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header .card-user .card-user--fullname{font-size:19px;}
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-header .card-user .card-user--jobtitle,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-header .card-user .card-user--jobtitle{left:0; font-size:10px; letter-spacing:1px;}
+    /* card content */
+    .tabs input[name="tab-control"]:nth-of-type(1):checked ~ .card-content--container{height:236.88px;}
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-content--container{height:562.5px;}
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-content--container{height:185px;}
+    
+    .tabs input[name="tab-control"]:nth-of-type(1):checked ~ .card-content--container > div:nth-child(1),
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-content--container > div:nth-child(2),
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-content--container > div:nth-child(3){
+      display:grid; 
+      grid-gap:20px; 
+      padding:20px;
+    }
+    /* card buttons */
+    .tabs input[name="tab-control"]:nth-of-type(1):checked ~ .card-btns > li:nth-child(1) label:before,
+    .tabs input[name="tab-control"]:nth-of-type(2):checked ~ .card-btns > li:nth-child(2) label:before,
+    .tabs input[name="tab-control"]:nth-of-type(3):checked ~ .card-btns > li:nth-child(3) label:before{
+      position:absolute; 
+      content:''; 
+      width:35px; 
+      height:3px; 
+      bottom:-2px; 
+      left:50%; 
+      transform:translate(-50%, -50%); 
+      background-color:#ba89ad;
+    }
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<body>
+        <div class="personal-card-without-js tabs">
+                
+            <input type="radio" id="btn1" name="tab-control" checked="">
+            <input type="radio" id="btn2" name="tab-control">
+            <input type="radio" id="btn3" name="tab-control">
+
+            <div class="card-header">
+                <img class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdfq_rsZfYSEwfLb2uodEPk9i4fBEAWzl_Ig&usqp=CAU" alt="avatar" loading="lazy">
+                <div class="card-user">
+                    <h2 class="card-user--fullname">Dzarel Developer</h2>
+                    <h3 class="card-user--jobtitle">Be yourself🎭</h3>
+                </div>
+                <div class="card-header--cover"></div>
+            </div>
+            
+            <div class="card-content--container">
+                <div class="card-content card-about-me">
+                    <h2 class="card-content--title">Thank you for</h2>
+                    <p class="bio">Thank you everyone for supporting me to make this, thank you everyone</p>
+                </div>
+                <div class="card-content card-certifications">
+                    <h2 class="card-content--title">My Skill</h2>
+                    <div class="card-timeline">
+                                            
+                        <div class="wp-container-3 wp-block-group card-item">
+                            <p class="card-item-title">Html ( HyperText Markup Language )</p>
+                            <p class="card-item-desc">Already Mastered</p>
+                        </div>
+        
+                        <div class="wp-container-3 wp-block-group card-item">
+                            <p class="card-item-title">Css ( Cascading Style Sheets )</p>
+                            <p class="card-item-desc">A Little Mastery  </p>
+                        </div>
+        
+                        <div class="wp-container-3 wp-block-group card-item">
+                            <p class="card-item-title">Javascript</p>
+                            <p class="card-item-desc">A Little Mastery </p>
+                        </div>
+        
+                        <div class="wp-container-4 wp-block-group card-item">
+                            <p class="card-item-title">Python</p>
+                            <p class="card-item-desc">A Little Mastery</p>
+                        </div>
+        
+                        <div class="wp-container-5 wp-block-group card-item">
+                            <p class="card-item-title">Bash ( Bourne Again SHell )</p>
+                            <p class="card-item-desc">Already Mastered</p>
+                        </div>
+        
+                        <div class="wp-container-6 wp-block-group card-item">
+                            <p class="card-item-title">Php ( Hypertext Preprocessor )</p>
+                            <p class="card-item-desc">A Little Mastery </p>
+                        </div>
+        
+                        <div class="wp-container-7 wp-block-group card-item">
+                            <p class="card-item-title">Hacking</p>
+                            <p class="card-item-desc">A Little Mastery </p>
+                        </div>
+        
+                        <div class="wp-container-8 wp-block-group card-item">
+                            <p class="card-item-title">Security</p>
+                            <p class="card-item-desc">A Little Mastery </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="card-btns">
+                <li><label for="btn1">About Me</label></li>
+                <li><label for="btn2">My Skill</label></li>
+            </ul>
+        </div> 
+    </body>
+<!-- partial -->
+  
+</body>
+</html>

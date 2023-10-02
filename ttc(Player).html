@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tic Tac Toe</title>
+        <style>
+        body {
+    background-color:#fff;
+    color:rgba(0,0,0,0.5);
+}
+#Info
+{
+    background-color:#fff;
+    color:rgba(0,0,0,0.5);
+    padding:1px;
+    margin:20px;
+    border-radius:50px;
+    text-align:center;
+    border:6px double rgba(0,0,0,0.5);
+}
+#Box
+{
+    width:300px;
+    height:295px;
+    border:1px solid rgba(0,0,0,0.5);
+    text-align:center ;
+    margin:auto ;
+}
+table{
+    font-size:70px;
+}
+button{
+    width:200px;
+    font-weight:bold ;
+    font-size:20px;
+    background-color:#fff;
+    outline:none ;
+    color:rgba(0,0,0,0.5);
+    padding:10px;
+    margin:20px;
+    margin-left:70px;
+    border-radius:50px;
+    border:6px double rgba(0,0,0,0.5);
+}
+        </style>
+    </head>
+    <body>
+        
+        <div id="Info">
+            <h2>TIC-TAC-TOE</h2>
+        </div>
+        <div id="Box">
+            
+     <table border="1px" cellpadding="1px" cellspacing="5px">
+                
+        <tr>
+                
+           <td id="d1" onclick="d1check()" width="100px" height="87px"></td>
+           <td id="d2" onclick="d2check()" width="100px" height="87px"></td>
+           <td id="d3" onclick="d3check()" width="100px" height="87px"></td>
+                    
+        </tr>
+                
+        <tr>
+        
+           <td id="d4" onclick="d4check()" width="100px" height="87px"></td>
+           <td id="d5" onclick="d5check()" width="100px" height="87px"></td>
+           <td id="d6" onclick="d6check()" width="100px" height="87px"></td>
+        
+        </tr>
+        
+        <tr>
+                    
+           <td id="d7" onclick="d7check()" width="100px" height="87px"></td>
+           <td id="d8" onclick="d8check()" width="100px" height="87px"></td>
+           <td id="d9" onclick="d9check()" width="100px" height="87px"></td>
+                    
+         </tr>
+        
+            
+     </table>
+            
+        </div>
+        
+        <button onclick="reset()">Reset Game</button>
+    <script>
+    var player = 1
+var click1 = 0
+var click2 = 0
+var click3 = 0
+var click4 = 0
+var click5 = 0
+var click6 = 0
+var click7 = 0
+var click8 = 0
+var click9 = 0
+
+function checkwin(){
+    win()
+    draw()
+}
+
+function draw(){
+    if (click1==1 && click2==1 &&click3==1 && click4==1 && click5==1 && click6==1 && click7==1 && click8==1 && click9==1 && win!=true){
+        alert("Draw");
+        reset();
+    }
+}
+
+function win(){
+if (document.getElementById('d1').innerHTML=='X' && document.getElementById('d2').innerHTML=='X' && document.getElementById('d3').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d4').innerHTML=='X' && document.getElementById('d5').innerHTML=='X' && document.getElementById('d6').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d7').innerHTML=='X' && document.getElementById('d8').innerHTML=='X' && document.getElementById('d9').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d1').innerHTML=='X' && document.getElementById('d4').innerHTML=='X' && document.getElementById('d7').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d2').innerHTML=='X' && document.getElementById('d5').innerHTML=='X' && document.getElementById('d8').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d3').innerHTML=='X' && document.getElementById('d6').innerHTML=='X' && document.getElementById('d9').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true 
+    }else if (document.getElementById('d1').innerHTML=='X' && document.getElementById('d5').innerHTML=='X' && document.getElementById('d9').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d3').innerHTML=='X' && document.getElementById('d5').innerHTML=='X' && document.getElementById('d7').innerHTML=='X'){
+        alert('Player X Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d1').innerHTML=='O' && document.getElementById('d2').innerHTML=='O' && document.getElementById('d3').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d4').innerHTML=='O' && document.getElementById('d5').innerHTML=='O' && document.getElementById('d6').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d7').innerHTML=='O' && document.getElementById('d8').innerHTML=='O' && document.getElementById('d9').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d1').innerHTML=='O' && document.getElementById('d4').innerHTML=='O' && document.getElementById('d7').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d2').innerHTML=='O' && document.getElementById('d5').innerHTML=='O' && document.getElementById('d8').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d3').innerHTML=='O' && document.getElementById('d6').innerHTML=='O' && document.getElementById('d9').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d1').innerHTML=='O' && document.getElementById('d5').innerHTML=='O' && document.getElementById('d9').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }else if (document.getElementById('d3').innerHTML=='O' && document.getElementById('d5').innerHTML=='O' && document.getElementById('d7').innerHTML=='O'){
+        alert('Player O Menang!');
+        reset();
+        return true
+    }
+}
+
+function reset(){
+    document.getElementById('d1').innerHTML='';
+document.getElementById('d2').innerHTML='';
+document.getElementById('d3').innerHTML='';
+document.getElementById('d4').innerHTML='';
+document.getElementById('d6').innerHTML='';
+document.getElementById('d5').innerHTML='';
+document.getElementById('d7').innerHTML='';
+document.getElementById('d8').innerHTML='';
+document.getElementById('d9').innerHTML='';
+click1=click2=click3=click4=click5=click6=click7=click8=click9=0;
+}
+
+
+function d1check(){
+    if (click1==0){
+        click1 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d1').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d1').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d2check(){
+    if (click2==0){
+        click2 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d2').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d2').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d3check(){
+    if (click3==0){
+        click3 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d3').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d3').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d4check(){
+    if (click4==0){
+        click4 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d4').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d4').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d5check(){
+    if (click5==0){
+        click5 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d5').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d5').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d6check(){
+    if (click6==0){
+        click6 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d6').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d6').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d7check(){
+    if (click7==0){
+        click7 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d7').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d7').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d8check(){
+    if (click8==0){
+        click8 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d8').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d8').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+function d9check(){
+    if (click9==0){
+        click9 = 1;
+        switch(player){
+        case 1:
+        document.getElementById('d9').innerHTML='O'
+        player=player+1;
+        checkwin ();
+        break
+        case 2:
+        document.getElementById('d9').innerHTML='X';
+        player=player-1;
+        checkwin ();
+        break
+        }
+        }
+    else{
+        alert("Langkah yang salah!")
+    }
+}
+    </script>
+    </body>
+</html>

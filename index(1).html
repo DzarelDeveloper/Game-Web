@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GAME-WEB</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .menubutton {
+            border: 1px solid black;
+            background: silver;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        .about-button {
+            background-color: black;
+            color: white;
+        }
+
+        .single-button {
+            background-color: #ADD8E6;
+            color: white;
+        }
+
+        .ai-button {
+            background-color: #336666;
+            color: white;
+        }
+         .multiplayer-button {
+            background-color: #2C3E50;
+            color: white;
+        }
+
+        .menu {
+            display: none;
+            border: 1px solid black;
+            border-top: 0;
+            background: rgba(200, 200, 200, 0.9);
+            padding: 10px;
+            margin-bottom: 2px;
+            font-size: 16px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            display: block;
+            padding: 5px;
+        }
+
+        .menu a:hover {
+            background-color: lightgray;
+        }
+        .birdmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .coronamenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .numbermenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .hardmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .kingmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .craftmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        
+        .rkzhmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .speedmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .zigzagmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .carmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .流星menu {
+            background-color: #d6d2bf;
+            color: white; 
+        } 
+        
+        .bgkmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .ttcmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        } 
+        .ludomenu {
+            background-color: #2a3778;
+            color: white; 
+        } 
+        
+        .tcmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .tankmenu {
+            background-color: #d6d2bf;
+            color: white; 
+        }
+        .ballmenu {
+            background-color: #2a3778;
+            color: white; 
+        }
+        .focusmenu {
+            background-color: #2a3778;
+            color: white; 
+        }                         
+    </style>
+</head>
+<body>
+    <h1>GAME-WEB</h1>
+   <button class="menubutton about-button" onclick="window.location.href='Author.html'">About Me</button>
+    <button class="menubutton single-button" onclick="showMenu(event)">Single</button>
+    <div class="menu">
+      <a class="birdmenu"href="Bird.html">Flappy Bird</a>
+       <a class="coronamenu"href="DeathCorona.html">Death Corona</a>
+       <a class="numbermenu"href="GueesNumber.html">Guees Number</a>
+       <a class="hardmenu"href="hardtosolve.html">Hard To Solve</a>
+       <a class="kingmenu"href="KingofAddition.html">King Of Addition</a>
+       <a class="craftmenu"href="Pesawat.html">AirCraft</a>
+       <a class="rkzhmenu"href="Rell.html">RKZH</a>
+       <a class="speedmenu"href="TypingSpeed.html">Typing Speed</a>
+       <a class="zigzagmenu"href="ZigZag.html">Zig Zag</a>
+        <a class="carmenu"href="Cars.html">Color Switch</a>
+       <a class="流星menu"href="meteor.html">流星</a>
+       <a class="focusmenu"href="Focus.html">Focus</a>
+    </div>
+    <button class="menubutton ai-button" onclick="showMenu(event)">AI</button>
+    <div class="menu">
+        <a class="bgkmenu"href="BGK(AI).html">Batu Gunting Kertas</a>
+        <a class="ttcmenu"href="ttc(AI).html">TIC-TAC-TOE</a>
+    <a class="ludomenu"href="Ludo(AI).html">Ludo</a>
+    </div>
+    <button class="menubutton multiplayer-button" onclick="showMenu(event)">Multiplayer</button>
+    <div class="menu">
+        <a class="tcmenu"href="ttc(Player).html">TIC-TAC-TOE</a>
+    <a class="tankmenu"href="Tank(Player).html">Tank</a>
+    <a class="ballmenu"href="Ball(Player).html">Avoid The Ball</a>
+    </div>
+    </div>
+    <script>
+        function showMenu(e) {
+            var x = e.target.nextElementSibling;
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
